@@ -1,0 +1,103 @@
+---
+title: Mapping Data Models to VOTable
+name: MappingDMtoVOTable
+version: '1.0-201506xx'
+# supported types: WD, PR, NOTE, REC, DERR
+# custom types may be provided by creating files
+# in `style/messages`, following the examples.
+type: WD
+date: '2016-08-30'
+dateCode: '20160830'
+author:
+    - name: Gerard Lemson
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GerardLemson
+    - name: Omar Laurino
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/OmarLaurino
+    - name: Patrick Dowler
+    - name: Markus Demleitner
+    - name: Matthew Graham
+    - name: Jesus Salgado
+editor:
+    - name: Omar Laurino
+    - name: Gerard Lemson
+group: Data Models
+previousVersion:
+    - ver: xx
+      url: http://www.ivoa.net/documents/xx
+
+abstract: |
+    Data providers and curators provide a great deal of metadata with their data
+    files: this metadata is invaluable for users and for Virtual Observatory
+    software developers. In order to be interoperable, the metadata must refer
+    to common Data Models. This specification defines a scheme for annotating
+    VOTable instances in a standard, consistent, interoperable fashion, so that
+    each piece of metadata can unambiguously refer to the correct Data Model
+    element it expresses, assuming there is a suitable data model.
+    With this specification, data providers can
+    unambiguously and completely represent Data Model instances in the VOTable
+    format, and clients can build *faithful* representations of such instances.
+    The mapping is operated through opaque, portable strings. These used to be
+    called `utypes`, but document uses a new annotation mechanism. This proposal
+    assumes agreement on a VOTable extension that adds an explicit mapping
+    element `<VODML>` to selected VOTable elements (`GROUP`, `PARAM`, `PARAMref`,
+    `FIELDref`) and which indicates that those elements are representing
+    particular elements from some VO-DML model.
+
+references:
+    - id: vodml
+      type: article
+      author:
+        - family: Lemson
+          given: Gerard
+      title: 'VO - DML: a consistent modeling language for IVOA data models'
+      issued:
+          year: 2015
+          month: 10
+          day: 10
+      URL: 'http://www.ivoa.net/documents/VODML/20151010/index.html'
+    - id: usages
+      type: article
+      author:
+        - family: Graham
+          given: Matthew
+      title: 'UTypes: current usages and practices in the IVOA'
+      issued:
+          year: 2013
+          month: 2
+          day: 13
+      URL: 'http://www.ivoa.net/documents/Notes/UTypesUsage/index.html'
+    - id: votable1.4
+      type: article
+      author:
+        - family: Ochsenbein
+          given: Francois
+      title: 'VOTable Format Definition'
+      issued:
+          year: xxxx
+          month: xxxx
+          day: xxxx
+      URL: 'http://www.ivoa.net/documents/xxxx'
+    - id: votable
+      title: 'VOTable document(s)'
+    - id: simdm
+      title: 'Simulation DM spec'
+    - id: chardm
+      title: 'Characterization DM spec'
+    - id: spectrumdm
+      title: 'Spectrum DM spec'
+    - id: stcdm
+      title: 'STC spec'
+    - id: orm
+      title: 'ORM mapping tools: Hibernate, JPA spec'
+    - id: ucd
+      title: 'UCDs'
+    - id: stc_in_vot
+      title: 'STC in VOTable note'
+    - id: skos
+      title: 'PR on use of SKOS vocabularies in IVOA'
+    - id: ids
+      title: 'IVOA Identifiers'
+    - id: vourp
+      title: 'VOURP'
+link-citations: true
+---
