@@ -102,65 +102,35 @@ including the double quotes), which will be discussed in section \ref{sect6.3}:
 
 ~~~~~~
 <TABLE>
-
-<GROUP ID="\_source">
-
+<GROUP ID="_source">
 **<VODML>TYPE>src:source.Source</TYPE></VODML>**
-
-<FIELDref ref="\_designation">
-
+<FIELDref ref="_designation">
 **<VODML><ROLE>vo-dml:ObjectType.ID</ROLE></VODML>**
-
 </FIELDref>
-
-<FIELDref ref="\_designation">
-
+<FIELDref ref="_designation">
 **<VODML><ROLE>src:source.Source.name</ROLE></VODML>**
-
 </FIELDref>
-
 <GROUP>
-
 **<VODML>**
-
 **<ROLE>src:source.Source.position</ROLE>**
-
 **<TYPE>src:source.SkyCoordinate</TYPE>**
-
 **</VODML>**
-
-<FIELDref ref="\_ra">
-
+<FIELDref ref="_ra">
 **<VODML><ROLE>**src:source.SkyCoordinate.longitude**</ROLE></VODML>**
-
 </FIELDref>
-
-<FIELDref ref="\_dec">
-
+<FIELDref ref="_dec">
 **<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 </FIELDref>
-
-<GROUP ref="\_icrs">
-
+<GROUP ref="_icrs">
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 </GROUP>
-
-<FIELD name="designation" ID="\_designation" .../>
-
-<FIELD name="ra" ID="\_ra" unit="deg" .../>
-
-<FIELD name="dec" ID="\_dec" unit="deg" .../>
-
+<FIELD name="designation" ID="_designation" .../>
+<FIELD name="ra" ID="_ra" unit="deg" .../>
+<FIELD name="dec" ID="_dec" unit="deg" .../>
 <TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD></TR>
-
 ...
-
 </TABLE>
 ~~~~~~
 
@@ -188,57 +158,31 @@ structured attribute (and again a reference, see section \ref{sect6.3}).
 
 ~~~~~~
 <GROUP>
-
 **<VODML><TYPE>src:source.Source</TYPE></VODML>**
-
 <PARAM value=”08120809-0206132” ...>
-
 **<VODML><ROLE>vo-dml:ObjectType.ID</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM value=”08120809-0206132” ... ...>
-
 **<VODML><ROLE>src:source.Source.name</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM value=”galaxy” ... ...>
-
 **<VODML><ROLE>src:source.Source.classification</ROLE></VODML>**
-
 </PARAM>
-
 <GROUP>
-
 **<VODML>**
-
 **<ROLE>src:source.Source.position</ROLE>**
-
 **<TYPE>src:source.SkyCoordinate</TYPE>**
-
 **</VODML>**
-
 <PARAM value=”123.033734” ...>
-
 **<VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM value=”-2.103671” ...>
-
 **<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 </PARAM>
-
-<GROUP ref="\_icrs">
-
+<GROUP ref="_icrs">
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 </GROUP>
 ~~~~~~
 
@@ -258,7 +202,7 @@ structured type. They may represent atomic or may represent structured
 
 In the indirect representation of the **`ObjectType`** below a FIELDref
 indicates that an attribute is stored in the FIELD with
-`ID=”\_designation”`. It does so using the **`vodmlref`**
+`ID=”_designation”`. It does so using the **`vodmlref`**
 *src:source.Source.name* in the VODML/ROLE element, identifying the
 *name* attribute of the *Source* type. Note that in our example we use a
 **`vodml-id`** syntax derived from the VO-DML model itself. From this
@@ -289,84 +233,45 @@ OPTION mapping\]
 
 ~~~~~~
 <TABLE>
-
 <GROUP>
-
 <VODML><TYPE>src:source.Source</TYPE></VODML>
-
-<FIELDref ref="\_designation" utype=" vo-dml:ObjectType.ID"/>
-
-<FIELDref ref="\_designation" utype="src:source.Source.name"/>
-
+<FIELDref ref="_designation" utype=" vo-dml:ObjectType.ID"/>
+<FIELDref ref="_designation" utype="src:source.Source.name"/>
 <PARAM name=”type” value=”galaxy”>
-
 **<VODML><ROLE>src:source.Source.classification<ROLE>**
-
 **<OPTION>**
-
 **<VALUE>galaxy</VALUE>**
-
 **<LITERAL>src:source.SourceClassification.galaxy</LITERAL>**
-
 **</OPTION>**
-
 **<OPTION>**
-
 **<VALUE>star</VALUE>**
-
 **<LITERAL>src:source.SourceClassification.star</LITERAL>**
-
 **</OPTION>**
-
 **</VODML>**
-
 <VALUES><OPTION value=”galaxy”/><OPTION
 value=”star”/>...</VALUES>
-
 </PARAM>
-
 <GROUP>
-
 **<VODML>**
-
 **<ROLE>src:source.Source.position</ROLE>**
-
 **<TYPE>src:source.SkyCoordinate</TYPE>**
-
 **</VODML>**
-
-<FIELDref ref="\_ra">
-
+<FIELDref ref="_ra">
 **<VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>**
-
 </FILDEref>
-
-<FIELDref ref="\_dec">
-
+<FIELDref ref="_dec">
 **<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 </FILDEref>
-
-<GROUP ref="\_icrs">\
-
+<GROUP ref="_icrs">\
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 </GROUP>
-
-<FIELD name="designation" ID="\_designation" .../>
-
-<FIELD name="ra" ID="\_ra" unit="deg" .../>
-
-<FIELD name="dec" ID="\_dec" unit="deg" .../>
-
+<FIELD name="designation" ID="_designation" .../>
+<FIELD name="ra" ID="_ra" unit="deg" .../>
+<FIELD name="dec" ID="_dec" unit="deg" .../>
 <TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD></TR>
-
 ...
-
 </TABLE>
 ~~~~~~
 
@@ -390,82 +295,44 @@ VO-DML models).
 
 ~~~~~~
 <TABLE>
-
 <GROUP>
-
 <VODML><TYPE>src:source.Source</TYPE></VODML>
-
-<FIELDref ref="\_designation">
-
+<FIELDref ref="_designation">
 <VODML><ROLE>vo-dml:ObjectType.ID</ROLE></VODML>
-
 </FIELDref>
-
-<FIELDref ref="\_designation">
-
+<FIELDref ref="_designation">
 <VODML><ROLE>src:source.Source.name</ROLE></VODML>
-
 </FIELDref>
-
 <PARAM name=”type” value=”galaxy”>
-
 <VALUES><OPTION value=”galaxy”/><OPTION
 value=”star”/>...</VALUES>
-
 <VODML><ROLE>src:source.Source.classification</ROLE></VODML>
-
 </PARAM>
-
 **<GROUP>**
-
 **<VODML>**
-
 **<ROLE>src:source.Source.position</ROLE>**
-
 **<TYPE>src:source.SkyCoordinate</TYPE>**
-
 **</VODML>**
-
-**<FIELDref ref="\_ra">**
-
+**<FIELDref ref="_ra">**
 **<VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>**
-
 **</FIELDref>**
-
-**<FIELDref ref="\_dec">**
-
+**<FIELDref ref="_dec">**
 **<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 **</FIELDref>**
-
-**<GROUP ref="\_icrs">**
-
+**<GROUP ref="_icrs">**
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 **</GROUP>**
-
 **</GROUP>**
-
 </GROUP>
-
-<FIELD name="designation" ID="\_designation" .../>
-
-<FIELD name="ra" ID="\_ra" unit="deg" .../>
-
-<FIELD name="dec" ID="\_dec" unit="deg" .../>
-
+<FIELD name="designation" ID="_designation" .../>
+<FIELD name="ra" ID="_ra" unit="deg" .../>
+<FIELD name="dec" ID="_dec" unit="deg" .../>
 <TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD></TR>
-
 ...
-
 </TABLE>
-
-<FIELD name="dec" ID="\_dec" unit="deg" .../>
-
+<FIELD name="dec" ID="_dec" unit="deg" .../>
 <TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD></TR>
-
 ...
-
 </TABLE>
 ~~~~~~
 
@@ -489,90 +356,48 @@ direct GROUP. Hence all rows in the table use the same frame and the
 reference needs no structure.
 
 ~~~~~~
-<GROUP **ID="\_icrs"**>
-
+<GROUP **ID="_icrs"**>
 <VODML><TYPE>src:source.SkyCoordinateFrame</TYPE></VODML>
-
 <PARAM value="ICRS" ...>
-
 <VODML><ROLE>src:source.SkyCoordinateFrame.name</ROLE></VODML>
-
 </PARAM>
-
 <PARAM value="J2000.0" ...>
-
 <VODML><ROLE>src:source.SkyCoordinateFrame.equinox</ROLE></VODML>
-
 </PARAM>
-
 </GROUP>
-
 <TABLE>
-
 <GROUP>
-
 <VODML><TYPE>src:source.Source</TYPE></VODML>
-
-<FIELDref ref="\_designation">
-
+<FIELDref ref="_designation">
 <VODML><ROLE>vo-dml:ObjectType.ID</ROLE></VODML>
-
 </FIELDref>
-
-<FIELDref ref="\_designation">
-
+<FIELDref ref="_designation">
 <VODML><ROLE>src:source.Source.name</ROLE></VODML>
-
 </FIELDref>
-
 <GROUP>
-
 <VODML>
-
 <ROLE>src:source.Source.position</ROLE>
-
 <TYPE>src:source.SkyCoordinate</TYPE>
-
 </VODML>
-
-<FIELDref ref="\_ra" >
-
+<FIELDref ref="_ra" >
 <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>
-
 </FIELDref>
-
-<FIELDref ref="\_dec">
-
+<FIELDref ref="_dec">
 <VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>
-
 </FIELDref>
-
-**<GROUP ref="\_icrs">**
-
+**<GROUP ref="_icrs">**
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 **</GROUP>**
-
 </GROUP>
-
 </GROUP>
-
-<FIELD id="\_ designation " name="parentId" datatype="char"/>
-
-<FIELD id="\_ra" name="ra" datatype="float"/>
-
-<FIELD id="\_dec" name="dec" datatype="float"/>
-
+<FIELD id="_ designation " name="parentId" datatype="char"/>
+<FIELD id="_ra" name="ra" datatype="float"/>
+<FIELD id="_dec" name="dec" datatype="float"/>
 ...
-
 <DATA><TABLEDATA>
-
 <TR><TD>08120809-0206132</TD><TD>123.034</TD><TD>-2.1037</TD>...</TR>
-
 ...
-
 </TABLEDATA></DATA>
-
 </TABLE>
 ~~~~~~
 
@@ -621,206 +446,107 @@ photometry filter used for the measurements.
 
 ~~~~~~
 <TABLE>
-
 <GROUP>
-
 **<VODML><TYPE>src:source.Source</TYPE></VODML>**
-
-<FIELDref ref="\_designation">
-
+<FIELDref ref="_designation">
 <VODML><ROLE>src:source.Source.name</ROLE></VODML>
-
 </FIELDref>
-
 <GROUP>
-
 **<VODML>**
-
 **<ROLE>src:source.Source.position</ROLE>**
-
 **<TYPE>src:source.SkyCoordinate</TYPE>**
-
 **</VODML>**
-
-<FIELDref ref="\_ra">
-
+<FIELDref ref="_ra">
 **<VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>**
-
 </FIELDref>
-
-<FIELDref ref="\_dec">
-
+<FIELDref ref="_dec">
 **<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 </FIELDref>
-
-<GROUP ref="\_icrs">
-
+<GROUP ref="_icrs">
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 <GROUP>
-
 **<VODML>**
-
 **<ROLE>src:source.Source.luminosity</ROLE>**
-
 **<TYPE>src:source.LuminosityMeasurement</TYPE>**
-
 **</VODML>**
-
-<FIELDref ref="\_magJ"">
-
+<FIELDref ref="_magJ"">
 **<VODML><ROLE>src:source.LuminosityMeasurement.value</ROLE></VODML>**
-
 </FIELDref>
-
-<FIELDref ref="\_errJ"">
-
+<FIELDref ref="_errJ"">
 **<VODML><ROLE>src:source.LuminosityMeasurement.error</ROLE></VODML>**
-
 </FIELDref>
-
 <GROUP ref="2massJ"">
-
 **<VODML><ROLE>src:source.LuminosityMeasurement.filter</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 <GROUP>
-
 **<VODML>**
-
 **<ROLE>src:source.Source.luminosity</ROLE>**
-
 **<TYPE>src:source.LuminosityMeasurement</TYPE>**
-
 **</VODML>**
-
-<FIELDref ref="\_magK">
-
+<FIELDref ref="_magK">
 **<VODML><ROLE>src:source.LuminosityMeasurement.value</ROLE></VODML>**
-
 </FIELDref>
-
-<FIELDref ref="\_errK"">
-
+<FIELDref ref="_errK"">
 **<VODML><ROLE>src:source.LuminosityMeasurement.error</ROLE></VODML>**
-
 </FIELDref>
-
 <GROUP ref="2massK"">
-
 **<VODML><ROLE>src:source.LuminosityMeasurement.filter</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 <GROUP">
-
 **<VODML>**
-
 **<ROLE>src:source.Source.luminosity</ROLE>**
-
 **<TYPE>src:source.LuminosityMeasurement</TYPE>**
-
 **</VODML>**
-
-<FIELDref ref="\_magH">
-
+<FIELDref ref="_magH">
 **<VODML><ROLE>src:source.LuminosityMeasurement.value</ROLE></VODML>**
-
 </FIELDref>
-
-<FIELDref ref="\_errH"">
-
+<FIELDref ref="_errH"">
 **<VODML><ROLE>src:source.LuminosityMeasurement.error</ROLE></VODML>**
-
 </FIELDref>
-
 <GROUP ref="2massH"">
-
 **<VODML><ROLE>src:source.LuminosityMeasurement.filter</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 </GROUP>
-
-<FIELD name="designation" ID="\_designation" >
-
+<FIELD name="designation" ID="_designation" >
 <DESCRIPTION>source designation formed from *sexigesimal*
 coordinates</DESCRIPTION>
-
 </FIELD>
-
-<FIELD name="ra" ID="\_ra" unit="deg">
-
+<FIELD name="ra" ID="_ra" unit="deg">
 <DESCRIPTION>right ascension (J2000 decimal
 *deg*)</DESCRIPTION>
-
 </FIELD>
-
-<FIELD name="dec" ID="\_dec" unit="deg">
-
+<FIELD name="dec" ID="_dec" unit="deg">
 <DESCRIPTION>declination (J2000 decimal *deg*)</DESCRIPTION>
-
 </FIELD>
-
-<FIELD name="magJ" ID="\_magJ">
-
+<FIELD name="magJ" ID="_magJ">
 <DESCRIPTION>J magnitude</DESCRIPTION>
-
 </FIELD>
-
-<FIELD name="errJ" ID="\_errJ" unit="deg">
-
+<FIELD name="errJ" ID="_errJ" unit="deg">
 <DESCRIPTION>J magnitude error</DESCRIPTION>
-
 </FIELD>
-
-FIELD name="magH" ID="\_magH">
-
+FIELD name="magH" ID="_magH">
 <DESCRIPTION>H magnitude</DESCRIPTION>
-
 </FIELD>
-
-<FIELD name="errH" ID="\_errH" unit="deg">
-
+<FIELD name="errH" ID="_errH" unit="deg">
 <DESCRIPTION>H magnitude error</DESCRIPTION>
-
 </FIELD>
-
-FIELD name="magK" ID="\_magK">
-
+FIELD name="magK" ID="_magK">
 <DESCRIPTION>K magnitude</DESCRIPTION>
-
 </FIELD>
-
-<FIELD name="errK" ID="\_errK" unit="deg">
-
+<FIELD name="errK" ID="_errK" unit="deg">
 <DESCRIPTION>K magnitude error</DESCRIPTION>
-
 </FIELD>
-
 <TR>
-
 <TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD><TD>23.2</TD><TD>.04</TD>
-
 <TD>23.0</TD><TD>.03</TD>
 <TD>23.5</TD><TD>.03</TD>
-
 </TR>
-
 ...
-
 </TABLE>
 ~~~~~~
 
@@ -831,37 +557,21 @@ a collection can be directly represented inside the parent GROUP.
 
 ~~~~~~
 <GROUP>
-
 **<VODML><TYPE>src:source.Source</TYPE><VODML>**
-
 <GROUP>
-
 <VODML><ROLE>src:source.Source.luminosity</ROLE></VODML>
-
 <GROUP>
-
 **<VODML><TYPE>src:source.LuminosityMeasurement</TYPE></VODML>**
-
 <PARAM value=”23.2” ...>
-
 **<VODML><ROLE>src:source.LuminosityMeasurement.value</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM value=”.04” ...>
-
 **<VODML><ROLE>src:source.LuminosityMeasurement.error</ROLE></VODML>**
-
 </PARAM>
-
 <GROUP ref="2massJ">
-
 **<VODML><ROLE>src:source.LuminosityMeasurement.filter</ROLE></VODML>**
-
 </GROUP>
-
 ...
-
 </GROUP>
 ~~~~~~
 
@@ -889,41 +599,23 @@ annotation, and removal of the GROUP representing the *Source*.
 
 ~~~~~~
 <TABLE>
-
 **<GROUP> **
-
 **<VODML><TYPE>src:source.SkyCoordinate</TYPE></VODML>**
-
-**<FIELDref ref="\_ra">\
-
+**<FIELDref ref="_ra">\
 <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>**
-
 **</FIELDref>**
-
-**<FIELDref ref="\_dec">\
-
+**<FIELDref ref="_dec">\
 <VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 **</FIELDref>**
-
-**<GROUP ref="\_icrs">\
-
+**<GROUP ref="_icrs">\
 <VODML><ROLE>src:source.SkyCoordinate.frame"</ROLE></VODML>**
-
 **</GROUP>**
-
 **</GROUP>**
-
-<FIELD name="designation" ID="\_designation" .../>
-
-<FIELD name="ra" ID="\_ra" unit="deg" .../>
-
-<FIELD name="dec" ID="\_dec" unit="deg" .../>
-
+<FIELD name="designation" ID="_designation" .../>
+<FIELD name="ra" ID="_ra" unit="deg" .../>
+<FIELD name="dec" ID="_dec" unit="deg" .../>
 <TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD></TR>
-
 ...
-
 </TABLE>
 ~~~~~~
 
@@ -939,62 +631,34 @@ following our data modeling serialization prescription. E.g. as in the
 following example:
 
 ~~~~~~
-<GROUP ID="\_icrs">
-
+<GROUP ID="_icrs">
 <VODML><TYPE>src:source.SkyCoordinateFrame</TYPE></VODML>
-
 <PARAM value="ICRS" ...>
-
 **<VODML><ROLE>src:source.SkyCoordinateFrame.name</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM value="J2000.0" ...>
-
 **<VODML.ROLE>src:source.SkyCoordinateFrame.equinox</ROLE></VODML>**
-
 </PAARAM>
-
 </GROUP>
-
 ...
-
 <GROUP name="SCS">
-
 <INFO value="The SCS request "/>
-
 <PARAM name="SR" datatype="float">
-
 **<VODML><TYPE>ivoa:real</TYPE></VODML>**
-
 <GROUP name="center">
-
 **<VODML><TYPE>src:source.SkyCoordinate</TYPE></VODML>**
-
 <INFO value="The center coordinate of the simple cone search"/>
-
 <PARAM name="ra" value="123.00000" datatype="float">
-
 **<VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM name="dec" value="-2.10000" datatype="float">
-
 **<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 </PARAM>
-
-<GROUP ref="\_icrs"">
-
+<GROUP ref="_icrs"">
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 </GROUP>
-
 ...
 ~~~~~~
 
@@ -1014,68 +678,37 @@ currently named “SCS’’, could have been declared to represent, say, an
 for the child GROUP as illustrated in the following example:
 
 ~~~~~~
-<GROUP ID="\_icrs">
-
+<GROUP ID="_icrs">
 **<VODML><TYPE>src:source.SkyCoordinateFrame</TYPE></VODML>**
-
 <PARAM value="ICRS" ...>
-
 **<VODML><ROLE>src:source.SkyCoordinateFrame.name</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM value="J2000.0" ...>
-
 **<VODML><ROLE>src:source.SkyCoordinateFrame.equinox</ROLE></VODML>**
-
 </PARAM>
-
 </GROUP>
-
 ...
-
 <GROUP name="SCS">
-
 **<VODML><TYPE>scs:SCSQuery</TYPE><VODML>**
-
 <PARAM name="SR" datatype="float">
-
 **<VODML><ROLE>scs:SCSQuery.SR</ROLE></VODML>**
-
 </PARAM>
-
 <GROUP name="center">
-
 **<VODML>**
-
 **<ROLE>scs:SCSQuery.center</ROLE>**
-
 **<TYPE>src:source.SkyCoordinate</TYPE>**
-
 **</VODML>**
-
 <PARAM name="ra" value="123.00000" datatype="float">
-
 **<VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>**
-
 </PARAM>
-
 <PARAM name="dec" value="-2.10000" datatype="float">
-
 **<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-
 </PARAM>
-
-<GROUP ref="\_icrs">
-
+<GROUP ref="_icrs">
 **<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-
 </GROUP>
-
 </GROUP>
-
 </GROUP>
-
 ...
 ~~~~~~
 
@@ -1108,45 +741,27 @@ pointing to the description file and introducing a custom prefix:
 
 ~~~~~~
 <GROUP name="Source">
-
 <VODML><TYPE>vo-dml:Model</TYPE></VODML>
-
 <PARAM name="url" datatype="char" arraysize="\*"
 value="https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/sample/Sample.vo-dml.xml">
-
 <VODML><ROLE>vo-dml:Model.url</ROLE></VODML>
-
 </PARAM>
-
 <PARAM value="src" name="prefix" datatype="char" arraysize="\*">
-
 <VODML><ROLE>vo-dml:Model.name</ROLE></VODML>
-
 </PARAM>
-
 </GROUP>
-
 **<GROUP name="ExtendedSource">**
-
 **<VODML><TYPE>vo-dml:Model</TYPE></VODML>**
-
 **<PARAM name="url" datatype="char" arraysize="\*"
 value="https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/sample/ExtendedSource.vo-dml.xml">**
-
 **<VODML><ROLE>vo-dml:Model.url</ROLE></VODML>**
-
 **</PARAM>**
-
 **<PARAM name="uri" datatype="char" arraysize="\*"
 value="ivo://ivoa.net/std/ExtendedSourceDM" />**
-
 **<PARAM utype="vo-dml:Model.prefix" value="xsrc" name="prefix"
 datatype="char" arraysize="\*">**
-
 **<VODML><ROLE>vo-dml:Model.name</ROLE></VODML>**
-
 **</PARAM>**
-
 **</GROUP>**
 ~~~~~~
 
@@ -1158,53 +773,30 @@ example:
 
 ~~~~~~
 <TABLE>
-
 <GROUP>
-
 <VODML>
-
 <TYPE>xsrc:source.Source</TYPE>
-
 <TYPE>src:source.Source</TYPE>
-
 </VODML>
-
-<FIELDref ref="\_designation" utype=" vo-dml:ObjectType.ID"/>
-
-<FIELDref ref="\_designation" utype="src:source.Source.name"/>
-
-<FIELDref ref="\_z" utype="xsrc:source.Source.redshift"/>
-
+<FIELDref ref="_designation" utype=" vo-dml:ObjectType.ID"/>
+<FIELDref ref="_designation" utype="src:source.Source.name"/>
+<FIELDref ref="_z" utype="xsrc:source.Source.redshift"/>
 <PARAM name=”type” utype=”src:source.Source.classification”
 value=”galaxy”>
-
 <GROUP utype="src:source.Source.position">
-
 <PARAM name=”type” utype=”vo-dml:Instance.type”
 value=”src:source.SkyCoordinate” datatype=”char” arraysize=”\*”/>
-
-<FIELDref ref="\_ra" utype="src:source.SkyCoordinate.longitude"/>
-
-<FIELDref ref="\_dec" utype="src:source.SkyCoordinate.latitude"/>
-
-<GROUP ref="\_icrs" utype="src:source.SkyCoordinate.frame"/>
-
+<FIELDref ref="_ra" utype="src:source.SkyCoordinate.longitude"/>
+<FIELDref ref="_dec" utype="src:source.SkyCoordinate.latitude"/>
+<GROUP ref="_icrs" utype="src:source.SkyCoordinate.frame"/>
 </GROUP>
-
 </GROUP>
-
-<FIELD name="designation" ID="\_designation" .../>
-
-<FIELD name="ra" ID="\_ra" unit="deg" .../>
-
-<FIELD name="dec" ID="\_dec" unit="deg" .../>
-
-<FIELD name=”z” ID=”\_z” .../>
-
+<FIELD name="designation" ID="_designation" .../>
+<FIELD name="ra" ID="_ra" unit="deg" .../>
+<FIELD name="dec" ID="_dec" unit="deg" .../>
+<FIELD name=”z” ID=”_z” .../>
 <TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD><TD>0.123</TD></TR>
-
 ...
-
 </TABLE>
 ~~~~~~
 
@@ -1213,7 +805,7 @@ elements, one referring to the subtype *xsrc:source.Source* and the
 other to its super type, *src:source.Source*. This possibility is a
 proposal on how to facilitate the work for so called *naïve clients*
 tailored to specific models (see Appendix B). Such clients are written
-only for a few specific model and only on the look-out for specific
+only for a few specific models and only on the look-out for specific
 **`vodmlrefs`** from those models. By providing all[^13] types in the
 inheritance hierarchy above the actual type, such clients would find a
 type they know and they will not be confused by the unknown *xsrc*
@@ -1222,7 +814,7 @@ annotation.
 Notice that the extending class inherits all of the parent’s attributes
 **and their vodmlrefs**: this way a naïve client of the *src* model can
 find all the elements it may understand, while a client of the child
-class can **`also`** look for the *xsrc* elements added in the subtype
+class can also look for the *xsrc* elements added in the subtype
 definition. The knowledge of the Data Model, either hardwired in the
 reader or dynamically generated using the VO-DML XML description,
 provides the client with the ability to look for the **`vodmlrefs`** it is
