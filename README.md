@@ -174,3 +174,18 @@ the presence of git submodules.
 Please refer to [this GitHub
 page](https://help.github.com/articles/support-for-subversion-clients/) for
 information about this support.
+
+Pandoc info
+===========
+
+You can find documentation about the pandoc Markdown flavor in the relative
+[section in the pandoc manual](http://pandoc.org/MANUAL.html#pandocs-markdown).
+
+We also use the [`citeproc` filter](https://github.com/jgm/pandoc-citeproc) and
+the [`crossref` filter](https://github.com/lierdakil/pandoc-crossref) for
+citations and internal cross references.
+
+References can be included in the `metadata.yaml` file and then cited in the
+text with `[@referenceId]`, as described in the [pandoc
+documentation](http://pandoc.org/MANUAL.html#citations.
+
