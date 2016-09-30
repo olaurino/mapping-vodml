@@ -152,6 +152,18 @@ changes into the local master branch that are not also in the remote master
 branch. In a topic branch development model this should never happen because
 master is only updated when integrating PRs.
 
+More info
+---------
+
+You can find more information about the GitHub workflow in the [GitHub
+pages](https://guides.github.com/introduction/flow/).
+
+Introductory git and GitHub material can be [also found on
+GitHub](https://help.github.com/categories/bootcamp/)
+
+An interactive git primer is available in the [Try Git](https://try.github.io)
+pages.
+
 Using Subversion rather than git
 --------------------------------
 
