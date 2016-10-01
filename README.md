@@ -6,6 +6,34 @@ The document is currently in a Working Draft stage.
 The document uses [`pandoc`](http://pandoc.org) Markdown and
 [`cereal`](https://github.com/olaurino/cereal) as typesetting tools.
 
+Output documents are build in the `output` directory.
+
+How to build the document
+=========================
+
+In order to process the document, run the following command:
+
+```
+./cereal/bin/simple.sh *.md metadata.yaml
+.\cereal\bin\simple.bat *.md .\metadata.yaml
+```
+
+This only requires `pandoc` and the `cite-proc` filter to be available in the
+path. If you want to build the full HTML rendering you also need Python and the
+`crossref` plugin:
+
+```
+./cereal/bin/full.sh *.md metadata.yaml
+.\cereal\bin\full.bat *.md .\metadata.yaml
+```
+
+If you also have LaTeX installed you can produce a PDF:
+
+```
+./cereal/bin/pdf.sh *.md metadata.yaml
+.\cereal\bin\pdf.bat *.md .\metadata.yaml
+```
+
 How to contribute
 =================
 
