@@ -100,39 +100,41 @@ represented by a GROUP with a @ref attribute. When annotated with a
 VODML element we will refer to this pattern as a “GROUPref” (generally
 including the double quotes), which will be discussed in section \ref{sect6.3}:
 
-~~~~~~
-<TABLE>
-<GROUP ID="_source">
-**<VODML>TYPE>src:source.Source</TYPE></VODML>**
-<FIELDref ref="_designation">
-**<VODML><ROLE>vo-dml:ObjectType.ID</ROLE></VODML>**
-</FIELDref>
-<FIELDref ref="_designation">
-**<VODML><ROLE>src:source.Source.name</ROLE></VODML>**
-</FIELDref>
-<GROUP>
-**<VODML>**
-**<ROLE>src:source.Source.position</ROLE>**
-**<TYPE>src:source.SkyCoordinate</TYPE>**
-**</VODML>**
-<FIELDref ref="_ra">
-**<VODML><ROLE>**src:source.SkyCoordinate.longitude**</ROLE></VODML>**
-</FIELDref>
-<FIELDref ref="_dec">
-**<VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>**
-</FIELDref>
-<GROUP ref="_icrs">
-**<VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>**
-</GROUP>
-</GROUP>
-</GROUP>
-<FIELD name="designation" ID="_designation" .../>
-<FIELD name="ra" ID="_ra" unit="deg" .../>
-<FIELD name="dec" ID="_dec" unit="deg" .../>
-<TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD></TR>
-...
-</TABLE>
-~~~~~~
+
+| &lt;TABLE>
+|   &lt;GROUP ID="_source">
+|     **&lt;VODML>TYPE>src:source.Source&lt;/TYPE>&lt;/VODML>**
+|     &lt;FIELDref ref="_designation">
+|       **&lt;VODML>&lt;ROLE>vo-dml:ObjectType.ID&lt;/ROLE>&lt;/VODML>**
+|     &lt;/FIELDref>
+|     &lt;FIELDref ref="_designation">
+|       **&lt;VODML>&lt;ROLE>src:source.Source.name&lt;/ROLE>&lt;/VODML>**
+|     &lt;/FIELDref>
+|     &lt;GROUP>
+|       **&lt;VODML>**
+|         **&lt;ROLE>src:source.Source.position&lt;/ROLE>**
+|         **&lt;TYPE>src:source.SkyCoordinate&lt;/TYPE>**
+|       **&lt;/VODML>**
+|       &lt;FIELDref ref="_ra">
+|         **&lt;VODML>&lt;ROLE>**src:source.SkyCoordinate.longitude**&lt;/ROLE>&lt;/VODML>**
+|       &lt;/FIELDref>
+|       &lt;FIELDref ref="_dec">
+|          **&lt;VODML>&lt;ROLE>src:source.SkyCoordinate.latitude&lt;/ROLE>&lt;/VODML>**
+|       &lt;/FIELDref>
+|       &lt;GROUP ref="_icrs">
+|         **&lt;VODML>&lt;ROLE>src:source.SkyCoordinate.frame&lt;/ROLE>&lt;/VODML>**
+|       &lt;/GROUP>
+|     &lt;/GROUP>
+|    &lt;/GROUP>
+|   &lt;FIELD name="designation" ID="_designation" .../>
+|   &lt;FIELD name="ra" ID="_ra" unit="deg" .../>
+|   &lt;FIELD name="dec" ID="_dec" unit="deg" .../>
+|   &lt;TR>&lt;TD>08120809-0206132&lt;/TD>
+|     &lt;TD>123.033734&lt;/TD>
+|     &lt;TD>-2.103671&lt;/TD>&lt;/TR>
+|   ...
+| &lt;/TABLE>
+
 
 Note the special representation of the identifier of the *Source*
 object, itself identified by the *vo-dml:ObjectType.ID* **`vodmlref`**.
