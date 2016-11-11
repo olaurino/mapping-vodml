@@ -75,15 +75,17 @@ objects, as many different referencing mechanisms must be taken into
 account. This is particularly important when discussing how to represent
 References in section ref{sect7.4}.
 
-We illustrate the two modes of mapping by showing an example how each
-mode may represent exactly the same object. For this we use the object
-type in Figure \ref{fig3} and a corresponding instance in Figure \ref{fig4}.
+We illustrate the two modes of mapping by showing an example how each mode may
+represent exactly the same object. For this we use the object type in
+[@fig:source-type] and a corresponding instance in [@fig:source-instance].
 
-\![ObjectType representing a Source. \[TBD Update to latest version of sample model\]](media/image5.png)
+![ObjectType representing a Source. **TODO** Update to latest version of sample
+model](media/SourceObjectType.svg){#fig:source-type}
 
 
 
-\![Instance of Source ObjectType in UML. \[TBD Update to latest version of sample model\]](media/image6.png)
+![Instance of Source ObjectType in UML. **TODO** Update to latest version of
+sample model](media/SourceObjectInstance.svg){#fig:source-instance}
 
 
 ### Indirect serialization to a TABLE ###
@@ -195,7 +197,11 @@ An attribute is the role a value type plays in the definition of a
 structured type. They may represent atomic or may represent structured
 (Data)types themselves. These are represented differently.
 
-\![The ObjectType *Source* and the DataType *SkyCoordinate* both define attributes. Attributes can represent a PrimitiveType (‘*name’* and ‘*description’* in *Source*, ‘*longitude’* and ‘*latitude’* in *SkyCoordinate*), an Enumeration (‘*classification’* in *Source*), or a structured DataType (‘*position’* in *Source*).](media/image5.png) \![](media/image7.png)
+![The ObjectType *Source* in [@fig:source-type] and the DataType *SkyCoordinate*
+both define attributes. Attributes can represent a PrimitiveType (‘*name’* and
+‘*description’* in *Source*, ‘*longitude’* and ‘*latitude’* in *SkyCoordinate*),
+an Enumeration (‘*classification’* in *Source*), or a structured DataType
+(‘*position’* in *Source*).](media/SkyCoordinateType.png)
 
 
 ### PrimitiveType attribute as FIELDref, Enumeration as PARAM###
@@ -344,9 +350,11 @@ instead indicated by the PARAM with name “type”.
 ## Mapping Reference ##
 
 
-\![](media/image8.png)
+![Reference relation between
+types](media/ReferenceUML.png){#fig:reference-types}
 
-\![](media/image9.png)
+![Reference relation between
+instanced](media/ReferenceInstance.png){#fig:reference-instances}
 
 ### Referencing as ”GROUPref” to direct GROUP ###
 
@@ -428,7 +436,10 @@ Hence a GROUP inside another GROUP MAY represent a collection. It can do
 so in different modes that are illustrated by the following examples and
 described in more detail in section \ref{sect0}.
 
-\![](media/image10.png)\![](media/image11.png)
+![Composition relation between types](media/CompositionUML.png){#fig:composition-types}
+
+![Composition relation among
+instances](media/CompositionInstance.png){#fig:composition-instances}
 
 **Container and contained objects in same row in same TABLE:**
 

@@ -340,7 +340,7 @@ examples. It represents a simplified Source data model, containing
 luminosities that refer to the imported PhotDM. It also defines a
 simplistic version of an STC model with some types for defining
 coordinates on the sky, for the sake of simplicity and just for example
-purposes.](media/image3.png){#fig:model}
+purposes.](media/SourceUML.svg){#fig:model}
 
 The model defines some types allowing one to define a Source with
 position on the sky and a collection of luminosities. The position is
@@ -367,13 +367,13 @@ to be unique and give some indication of the location of the element
 they point to in the data model.
 
 We also use some sample instances of the models. These are here
-illustrated by UML instance diagrams. The diagram in {#fig:instance} represents
+illustrated by UML instance diagrams. The diagram in {@fig:instance} represents
 the first two lines returned from a query[^query] to the SDSS DR7 database.
 
 ![Figure 2 Instance diagram representing SDSS
 objetcs as sources in the sample data model. The first few results are
 represented from the default radial SDSS query at
-<http://skyserver.sdss.org/dr7/en/tools/search/radial.asp>](media/sdss_instance.jpg){#fig:instance}
+<http://skyserver.sdss.org/dr7/en/tools/search/radial.asp>](media/SourceInstanceUML.svg){#fig:instance}
 
 [^query]: Specifically:
 ``` sql
