@@ -19,24 +19,6 @@ relationships, **Composition** (collection), **Reference** and
 **Inheritance** (extends). **Package** is not mapped: none of the use
 cases required this element to be actually mapped to a VOTable instance.
 
-Each subsection contains a concise, formal description of a mapping
-pattern, according to a simple “grammar” described in Appendix C.
-(**TODO** TBC)
-
-For example the pattern expression
-
---------------------------------------------------------------------------------
-{GROUP G| G $\in$ TABLE & G/VODML/TYPE $\Rightarrow$ **ObjectType**
-& G/VODML/ROLE = NULL}
-
---------------------------------------------------------------------------------
-
-Defines the pattern: GROUP directly under a TABLE, with VODML/TYPE
-element identifying an **ObjectType** and without VODML/ROLE element.
-
-For example `GROUP|VODML/TYPE=”vo-dml:Model”] $\Rightarrow$ Model` implies the
-GROUP with VODML/TYE set to *vo-dml:Model* is mapped to a Model.
-
 See whether we should define a list of all the legal mapping patterns in
 an Appendix.
 
@@ -115,7 +97,7 @@ When we say this section is NORMATIVE we mean that:
      work, but is not mandated and other clients need not conform
      to this.
 
-[^15]: E.g. when interpreting a GROUP as a certain ObjectType, if one of
+[^15]: E.g. when interpreting an `<INSTANCE>` as a certain ObjectType, if one of
  its children is not annotated or identifies a child element that is
  not available on the type, this is an error. Fr each pattern there
  is a set of rules that, if broken, are annotation errors. (**TODO** we
@@ -124,138 +106,32 @@ When we say this section is NORMATIVE we mean that:
 Model
 -----
 
-### Model declaration: GROUP in VOTABLE ###
+### Model declaration ###
 
-Pattern expression:
+#### Description ####
 
---------------------------------------------------------------------------------
-{GROUP G| G $in$ VOTABLE & G/VODML/TYPE=”*vo-dml:Model*”}
-
---------------------------------------------------------------------------------
-
-A GROUP element with VODML element identifying a Model and placed
-directly under the root VOTABLE element indicates that the corresponding
-VO-DML model is used in VODML associations.
-
-**Restrictions**
-
-  - GROUP element representing a VO-DML Model must exist directly under
-    VOTABLE
-  - Each such GROUP MUST have a VODML element with
-    VODML/TYPE=”vo-dml:Model”, *no* VODML/ROLE
-  - MUST have child PARAM element with VODML/ROLE=”vo-dml:Model.uri” and
-    `@value` the URI of the VO-DML document representing the model. `@name`
-    is irrelevant, `@datatype=”char”` and `@arraysize=”*”`. This annotation
-    allows clients to *discover* whether a particular model is used in
-    the document, the prefix of its `@utype` in the document, and to
-    resolve the Model to its VO-DML description. The URI MUST be a IVORN
-    registered in the VO registries.
-  - SHOULD have child PARAM element with VODML/ROLE=”vo-dml:Model.url”
-    and `@value` the url of the VO-DML document representing the model.
-    `@name` is irrelevant, `@datatype=”char”` and `arraysize=”*”`. This is a
-    convenient shortcut for the resolution of the URI. Data providers
-    should make sure the URL is not broken. Clients should make sure
-    that they fall back to resolving the URI if the URL is broken.
-  -   MUST have child PARAM element with VODML/ROLE=”vo-dml:Model.name”
-    and `@value` the name of the Model, which also works as the
-    **vodmlref** prefix (see Section 4). `@name` is irrelevant,
-    `@datatype=”char”` and `arraysize=”\*”`.
-
-**Example**
-
-~~~~ {.xml .numberLines}
-<GROUP>
-  <VODML><TYPE>vo-dml:Model</TYPE></VODML>
-  <PARAM name="name" datatype="char" arraysize="*" value="src">
-    <VODML><ROLE>vo-dml:Model.name</ROLE></VODML>
-  </PARAM>  
-  <PARAM name="version" datatype="char" arraysize="*" value="1.0" >
-    <VODML><ROLE>vo-dml:Model.version</ROLE></VODML>
-  </PARAM>  
-  <PARAM name="url" datatype="char" arraysize="*"
-      value="https://volute.googlecode.com/svn/trunk/projects/dm/vo-dml/models/sample/Source.vo-dml.xml" >
-    <VODML><ROLE>vo-dml:Model.url</ROLE></VODML>
-  </PARAM>  
-</GROUP>
-~~~~
+#### Example ####
 
 ObjectType
 ----------
 
-See also section 7.7 on composition for more patterns regarding
-serialisation of **ObjectType** instances.
+### Individual, global ObjectType instance ###
 
-### Singleton root ObjectType: direct GROUP ###
+#### Description ####
 
-**Pattern expression**:
+#### Example ####
 
---------------------------------------------------------------------------------
-{GROUP G | G $subset$ RESOURCE & G $\not\subset$ TABLE & G $\not\subset$
-  GROUP[VODML] & G/VODML/TYPE $\Rightarrow$ **ObjectType**
-  & G/VODML/ROLE = NULL}
+### Root ObjectType instance in Table I: not identified ###
 
---------------------------------------------------------------------------------
+#### Description ####
 
+#### Example ####
 
-Singleton **ObjctType** represented by “direct GROUP”. Not in a TABLE,
-in a RESOURCE. MUST have VODML/TYPE, and no VODML/ROLE
+### Root ObjectType instance in Table II: identified ###
 
-Notice that there is a formal difference in VO-DML between DataType and
-ObjectType. From a practical point of view, these differences can be
-summarized as follows:
+#### Description ####
 
-  * DataType does not inherit the vo-dml:ObjectType.ID attribute
-
-  * You cannot Reference a DataType instance
-
-  * You cannot have a Collection of DataType instances
-
-### Root ObjectType instances in Table I: not identified ###
-
-Pattern expression:
-
---------------------------------------------------------------------------------
-{GROUP G | G $\subset$ TABLE & G $\not\subset$ GROUP[VODML] & G/VODML/TYPE
-  $\Rightarrow$ **ObjectType** & G/VODML/ROLE = NULL}
-
---------------------------------------------------------------------------------
-
-### Root ObjectType instances in Table II: identified ###
-
-Pattern expression:
-
---------------------------------------------------------------------------------
-{GROUP G, GROUP I, FIELDref F | I $\in$ G & G $\subset$ TABLE & G $\not\subset$
-   GROUP[VODML] & G/VODML/TYPE $\Rightarrow$ **ObjectType** & G/VODML/ROLE =
-   NULL & I/VODML/ROLE = “*vo-dml:ObjectTypeInstance.ID*”
-   & F $\in$ I & F/VODML/ROLE = “*vodml:Identifier.field*”}
-
---------------------------------------------------------------------------------
-
-When the VOTable document stores the result of an ADQL query it may be
-common to find multiple copies of the same **ObjectType** instance
-represented in a table. [TBD example of query joining parent to child
-replicating parent information.] If one wants to indicate this is the
-case one MUST use an Identifier pattern. Here one maps one or more
-columns to fields in the *vo-dml:ObjectTypeInstance.ID* property that
-every **ObjectType** instance inherits form its implicit super-type,
-*vo-dml:ObjectTypeInstance*. TBC
-
-This same identifier also allows the creation of Object-Relational
-Mapping patterns for references, this is described in section 7.6.3.
-
-If such an explicitidentifier mapping does not exist, as is the case in
-7.2.27.3.2, there is formally no way for clients to infer that instances
-in different rows are the same, even if all their properties have the
-same value. After all, **ObjectTypes** are *not* identified by the
-values of their properties, but *only* by an identifier (**TODO* TBD ref to
-VO-DML definition).
-
-**Restrictions/conditions/rules**:
-
-  * Clients SHOULD consider it an error if they encounter two objects
-    with identical IDs, that otherwise have distinct values for the
-    same properties.
+#### Example ####
 
 DataType
 --------
@@ -287,202 +163,64 @@ DataTypes can also have References to ObjectTypes, but a discussion of
 how to store References is deferred to section 7.4, after the discussion
 of storing ObjectType instances, which is provided in section 7.2.
 
-### Root DataType as singleton: direct GROUP ###
+### Individual, global DataType instance ###
 
-Pattern expression:
+#### Description ####
 
---------------------------------------------------------------------------------
-{GROUP G | G $\subset$ RESOURCE & G $\not\subset$ TABLE & G $\not\subset$
-  GROUP[VODML]& G/VODML/TYPE $\Rightarrow$
-**DataType** & G/VODML/ROLE = NULL}
-
---------------------------------------------------------------------------------
-
-  * Singleton **DataType** value, represented by “direct GROUP”. Not in
-    a TABLE, in a RESOURCE. MUST have VODML/TYPE, and MUST NOT
-    have VODML/ROLE.
-
-Restrictions:
-
-  * A GROUP in a RESOURCE cannot have FIELDrefs, only PARAMs, PARAMrefs
-    and GROUPs. The GROUP represents therefore a single instance of the
-    DataType directly as defined in 8.2, with the PARAMs etc. providing
-    the values of the components of the DataType.
+(TODO OL: Should this be supported at all? It could just be mentioned that a
+DataType instantiated as root is not supported by the standard, because they
+should always be enclosed in ObjectType instances, but clients should try and
+interpret them anyway).
 
 Comments:
 
-The possible role this instance plays in the VOTable document must have
-been defined outside of any mapping to a data model. After all, in
-contrast to instances of ObjectTypes, the existence of instances of
-value types need not be explicitly stated (see the description of value
-types in [1]). An example could be a VOTable containing the result of
-a simple cone search. A RESOURCE in that document might contain a GROUP
-representing the position of the cone, which may be mapped through its
-`@utype` to a DataType “src:source.SkyCoordinate” (if such a type existed:
-our sample model contains a type like it).
+The possible role this instance plays in the VOTable document must have been
+defined outside of any mapping to a data model. After all, in contrast to
+instances of ObjectTypes, the existence of instances of value types need not be
+explicitly stated (see the description of value types in [1]). An example could
+be a VOTable containing the result of a simple cone search. A RESOURCE in that
+document might contain the position of the cone, which may be mapped through its
+to a DataType “src:source.SkyCoordinate”.
 
-Example:
+#### Example ####
 
-**A GROUP defined as a child of RESOURCE representing a singleton
-datatype instance **
+(TODO Again: is this required? It could just be a special case clients should be
+encouraged to support).
 
-~~~~ {.xml .numberLines}
-<RESOURCE>
-<GROUP>
-  <VODML><TYPE>src:source.SkyCoordinate</TYPE></VODML>
-  <INFO value="The center coordinate of the simple cone search"/>
-  <PARAM name="ra" value="123.00000" ...>
-    <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>
-  </PARAM>
-  <PARAM name="dec" value="-2.10000" ...>
-    <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>
-  </PARAM>
-  <GROUP ref="_icrs">
-    <VODML><ROLE>src:SkyCoordinate.frame</ROLE></VODML>
-  </GROUP>
-</GROUP>
-~~~~
-Example:
-
-**A GROUP defined as a child of a GROUP without annotation**
-
-Note that the GROUP representing the singleton **DataType** is allowed
-to be contained in another GROUP, as long as that GROUP does not declare
-a VODML mapping. There are some restrictions. NONE of its ancestor
-GROUPs MAY be mapped to a data model element. This would conflict with
-rules of mapping such an ancestor GROUP that state that children of such
-GROUPs MUST be mapped to **Roles** of the structured type it represents.
-Whether the GROUP represents the **DataType** instance directly or
-indirectly is independent of this embedding in a parent GROUP. That is
-purely dependent on whether the GROUP has an ancestor TABLE or not.
+Note that the a **DataType** instance is allowed
+to be contained in an `INSTANCE` without a type. There are some restrictions. NONE of its ancestor
+`INSTANCE`s MAY be mapped to a data model element. This would conflict with
+rules of mapping such an ancestor `INSTANCE` that state that children of such
+`INSTANCE`s MUST be mapped to **Roles** of the structured type it represents.
 
 An example of this pattern is the case of an assumed DAL protocol, say
 SCS that defines *implicitly* some data structure that has components
 that may be represented by elements from a data model as I the following
 example.
 
-Example
+### Root DataType values in TABLE records: Template Instance ###
 
-A GROUP representing parameters of a Simple Cone Search with components
-mapped to data model elements.
+#### Description ####
 
-~~~~ {.xml .numberLines}
-<RESOURCE>
-<GROUP>
- <INFO value="The simple cone search request"/>
- <PARAM name="serchRadius" value="3" unit="arcsec" .../>
- <GROUP name="center">
-  <VODML><TYPE>src:source.SkyCoordinate</TYPE></VODML>
-  <INFO value="The center coordinate of the simple cone search"/>
-  <PARAM name="ra" value="123.00000" ...>
-    <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>
-  </PARAM>
-  <PARAM name="dec" value="-2.10000" ...>
-    <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>
-  </PARAM>
-  <GROUP ref="_icrs">
-    <VODML><ROLE>src:SkyCoordinate.frame</ROLE></VODML>
-  </GROUP>
- </GROUP>
-~~~~
+#### Example ####
 
-### Root DataType values in TABLE records: indirect GROUP ###
+### Attributes ###
 
-Pattern expression:
-
---------------------------------------------------------------------------------
-{GROUP G | G $\subset$ TABLE & G $\not\subset$ GROUP[VODML] & G/VODML/TYPE
-$\Rightarrow$ **DataType** & G/VODML/ROLE = NULL}
-
---------------------------------------------------------------------------------
+#### Description ####
 
 Restrictions:
 
-  * ...
-
-Comments:
-
-A GROUP defined on a TABLE, annotated with a **DataType**, represents a
-**DataType** instance indirectly.
-
-Example
-
-~~~~ {.xml .numberLines}
-<TABLE>
-  <GROUP>
-    <VODML><TYPE>src:source.SkyCoordinate</TYPE></VODML>
-    <FIELDref ref="_ra">
-      <VODML><ROLE>bSTC:SkyCoordinate.longitude</ROLE></VODML>
-    </FIELDref>
-    <FIELDref ref="_dec">
-      <VODML><ROLE>bSTC:SkyCoordinate.latitude</ROLE></VODML>
-    </FIELDref>
-    <GROUP ref="_icrs">
-      <VODML><ROLE>bSTC:SkyCoordinate.frame</ROLE></VODML>
-    </GROUP>
-  </GROUP>
-...
-<FIELD name="ra" ID="_ra" unit="deg">
-<DESCRIPTION>right ascension (J2000 decimal deg)</DESCRIPTION>
-</FIELD>
-<FIELD name="dec" ID="_dec"  unit="deg">
-<DESCRIPTION>declination (J2000 decimal deg)</DESCRIPTION>
-</FIELD>
-...
-~~~~
-
-### DataType as Attribute: GROUP in GROUP ###
-
-Pattern Expression:
-
---------------------------------------------------------------------------------
-{GROUP A, GROUP G | A $\in$ G & A/VODML/ROLE $\Rightarrow$ **Attribute**
-  & G/VODML $\Rightarrow$ **StructuredType**}
-
---------------------------------------------------------------------------------
-
-  * A GROUP representing a structured type can have Attributes that are
-    of a structured type as well.
-  * However, this time the nested GROUP has a VODML/ROLE identifying the
-    Attribute that the GROUP represents.
-
-Restrictions:
-
-  * The **Attribute** identified by GROUP A’s VODML/ROLE MUST be
+  * The **Attribute** identified by the nested `INSTANCE` **MUST** be
     available to the structured type represented by the containing
-    GROUP (G).
-  * GROUP A SHOULD also declare the actual structured type it
-    represents, through its VODML/TYPE. This type MUST be a valid type
+    `INSTANCE`.
+
+  * The attribute `INSTANCE` **SHOULD** also declare the actual structured type
+    it represents, through its `VODML/TYPE`. This type **MUST** be a valid type
     for the **Attribute**, i.e. the **Attribute’s** declared type or one
     of its subtypes. If the type in the serialization is a subtype, the
-    VODML/TYPE MUST declare that.
+    `VODML/TYPE` **MUST** declare that.
 
-**Comments:**
-
-Example
-
-~~~~ {.xml .numberLines}
-<GROUP>
-  <VODML><TYPE>src:source.Source</TYPE></VODML>
-...
-  <GROUP>
-    <VODML>
-      <ROLE>src:source.Source.position</ROLE>
-      <TYPE>src:source.SkyCoordinate</TYPE>
-    </VODML>
-    <FIELDref ref="_ra">
-      <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODML>
-    </FIELDref>
-    <FIELDref ref="_dec">
-      <VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODML>
-    </FIELDref>
-    <GROUP ref="_icrs">
-      <VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODML>
-    </GROUP>
-  </GROUP>
-...
-</GROUP>
-~~~~
+#### Example ####
 
 PrimitiveType and Enumeration
 -----------------------------
@@ -490,11 +228,8 @@ PrimitiveType and Enumeration
 **PrimitiveTypes** and **Enumerations** represent atomic values. They
 appear in serializations of data models predominantly in their role as
 attributes defined on structured types (**ObjectType** or **DataType**)
-and this specification focuses on that role. There is only limited extra
-information in identifying an individual FIELD or PARAM as representing
-some primitive type or enumeration from a data model, without indicating
-the role the FIELD or PARAM plays in some complex type. VO-DML assumes
-the existence of a standard data model (**TODO** *ivoa,* see [1] TBD refer to
+and this specification focuses on that role. VO-DML assumes
+the existence of a standard data model (**TODO** *ivoa,* see [@vo-dml] TBD refer to
 actual model) defining primitive types such as *ivoa:integer*,
 *ivoa:string* etc. But there is no new semantics implied by these types
 beyond the ones their counterparts in the VOTable schema carry[^16].
@@ -503,31 +238,23 @@ beyond the ones their counterparts in the VOTable schema carry[^16].
     represented using appropriate xtypes, e.g. adql:timestamp for
     *ivoa:datetime.*
 
-### Singleton primitive value as PARAM
+(**TODO** much of the above is probably obsoleted by the new mapping strategy)
 
-Pattern expression:
+### Individual primitive value ###
 
---------------------------------------------------------------------------------
-{PARAM P| P $\not\in$ G[VODML] & P/VODML/ROLE = NULL & G/VODML/TYPE $\Rightarrow$
-**PrimitiveType**|**Enumeration**}
-
---------------------------------------------------------------------------------
+#### Description ####
 
 This indicates a PARAM that is *not* contained in a VODML-annotated
-GROUP, has a VODML/TYPE identifying an atomic type and no VODML/ROLE.
+`INSTANCE`, has a `VODML/TYPE` identifying an atomic type and no `VODML/ROLE`.
 
-**TODO** TBD do we want to support this? For if so, what about FIELDs?
+(**TODO** TBD do we want to support this? For if so, what about FIELDs? OL: NO!)
 
-### EnumLiteral as OPTION
 
-Pattern expression:
+### EnumLiteral mapping
 
---------------------------------------------------------------------------------
-{FIELDref FR, FIELD F, OPTION O| `FR/@ref`=`F/@ID` & O $\subset$ F
-& FR/VODML $\Rightarrow$ Enumeration & FR/VODML/OPTION/NAME = `O/@value`
-& FR/VODML/OPTION/LITERAL $\Rightarrow$ EnumLiteral}
+#### Description ####
 
---------------------------------------------------------------------------------
+#### Example ####
 
 **TODO**
 
@@ -535,60 +262,42 @@ Pattern expression:
   * value to literal
   * value to SKOS concept
 
-### SKOSConcept as OPTION
+### SKOSConcept mapping
 
 **TODO**
 
 Attributes
 ----------
 
-### Attribute values in FIELD: FIELDref in GROUP in TABLE
+### Attribute values in table
 
-Pattern expression:
-
---------------------------------------------------------------------------------
-{FIELDref F, GROUP G| F $\in$ G & G $\subset$ TABLE & F/VODML/ROLE $\Rightarrow$
-**Attribute ** & G/VODML $\Rightarrow$ **StructuredType** }
-
---------------------------------------------------------------------------------
+#### Description ####
 
   * A FIELDref contained in a GROUP represents an Attribute serialized
     by the FIELD it refers to.
 
 Restrictions
 
-  * The **Attribute** identified by the FIELDref/VODML/ROLE MUST be
+  * The **Attribute** identified by the element MUST be
     available to the structured type represented by the containing
-    GROUP (G).
+    INSTANCE.
 
-  * FIELDref MUST reference a FIELD in the TABLE that contains its
-    parent GROUP.
+  * The reference MUST identify a FIELD in a TABLE. The FIELD is guaranteed
+  to be unique by the XML/VOTable rules for IDs.
 
   * The **Attribute** MUST have an atomic datatype, or a **DataType**
-    from the set of special cases described in be section 7.9.
+    from the set of special cases described in section 7.9.
 
   * The `@datatype` of the referenced FIELD SHOULD be compatible with the
     declared **datatype** of the **Attribute**. E.g. an integer
     (*ivoa:integer*) **Attribute** SHOULD be represented by VOTable’s
     int or long.
 
-Example
+### Example ###
 
-See example in 6.2.
+### Attribute value {sec:attribute-value}
 
-### Attribute to PARAM in GROUP
-
-Pattern Expression:
-
---------------------------------------------------------------------------------
-{PARAM P, GROUP G | P $\in$ G & G/VODML/ROLE $\Rightarrow$ **Attribute** &
-G/VODML $\Rightarrow$ **StructuredType}**
-
---------------------------------------------------------------------------------
-
-  * When defined inside of a GROUP that represents a structured type, a
-    PARAM MAY represent an Attribute of the type itself. The Attribute
-    is declared by the `@utype`.
+#### Description ####
 
 Restrictions
 
@@ -598,19 +307,11 @@ Restrictions
   * The PARAM `@datatype` SHOULD be a compatible, valid serialization type
     for the **datatype** of the **Attribute**.
 
-Example
+#### Example ####
 
-**TODO** See example in TBD
+### Attribute value as reference to PARAM
 
-### Attribute to PARAMref in GROUP
-
-Pattern expression:
-
---------------------------------------------------------------------------------
-{PARAMref P, GROUP G | P $\in$ G & P/VODML/ROLE $\Rightarrow$ Attribute &
-GROUP/VODML $\Rightarrow$ **StructuredType**]
-
---------------------------------------------------------------------------------
+#### Description ####
 
 Inside a GROUP a PARAMref identifies a PARAM defined inside the same
 RESOURCE or TABLE where the GROUP is defined. Using its VODML/ROLEthe
@@ -620,22 +321,21 @@ PARAMref can annotate the PARAM as holding the value of an
 Restrictions
 
   * The **Attribute** must be available to the structured type
-    represented by the containing GROUP G.
+    represented by the containing INSTANCE.
 
-  * The PARAM referencd by the PARAMref MUST obey the restrictions
+  * The PARAM referencd by the reference MUST obey the restrictions
     defined for the annotation of a PARAM by the **Attribute’s** type in
-    section 7.5.2.
+    {@sec:attribute-value}.
 
-Example
+#### Example ####
 
-See example in 6.2
+### DataType as Attribute
 
-### DataType as Attribute: “GROUPref” in GROUP
+(**TODO** Should we support references to INSTANCEs as DataType attributes?)
 
-A PARAMref identifyin some PARAMin a GROUP can represent an
-**Attribute** with an atomic type on a **StructuredType**, so we can to
-a GROUP representing a structured **DataType** to represent
-**Attributes**.
+#### Description ####
+
+#### Example ####
 
 References
 ----------
@@ -649,7 +349,7 @@ relation, many referrers can reference the same target object. The
 implication of a Reference relation is that the referenced object is
 somehow “used” by the referrer. Often, especially when the referrer is a
 **DataType**, it defines reference data that helps interpret the values
-its attributes assume. See the VO-DML document [1] for more
+its attributes assume. See the VO-DML document [@vo-dml] for more
 information.
 
 In explicit serialization languages [TBD must define and discuss this
@@ -694,8 +394,8 @@ references between instances of **Types**. Their difference lies in the
 way the target object is represented and identified, which puts demands
 on the way to identify them on the referrer objects. If the target
 object is serialized in the same document as the referrer it may be
-either represented as a singleton object represented by a direct Group
-(7.2.1) or as an object in a table (7.2.2 – 7.2.3).
+either represented as an individual object represented by an INSTANCE or an
+object in a table.
 
 The specification also allows for the case where the target object is
 *not* represented in the same VOTable document as the referrer. It may
@@ -706,7 +406,7 @@ data model, or possibly a location in some publicly accessible database
 with a relational schema mapped to the model in a standardized
 Object-Relational manner.
 
-This “remote reference pattern” is potentially very useful. By locating
+This *remote reference pattern* is potentially very useful. By locating
 certain standard, reference data objects in some well-defined place,
 possibly a registry, different documents can reference the same instance
 in an explicit and interoperable manner. In this case, instead of
@@ -724,146 +424,53 @@ de-referencing. Proper support for such standard reference data requires
 some standardized form for their registration and storage, an effort
 that should be part of the creation of standard data models and should
 have maintenance responsibilities similar to that of the UCD vocabulary
-[8].
+[@ucd].
 
-In all patterns below the actual **Reference** is represented by a GROUP
-contained by the GROUP representing the referrer, and with structure
-that allows the identification of the target object. We do this for
-uniformity: there may be cases where a single reference PARAM for
-example might be sufficient, just as an IDREF can identify a target with
-an ID in XML Schema, but more generic cases require more structure. And
-in fact our solution for this simplest case, using what we will refer to
-as a “GROUPref” (including the quotes), is more lightweight even that a
-solution with a PARAM as will be shown next.
+### Reference to individual Object
 
-### Reference to singleton Object in direct GROUP
-
-Pattern Expression:
-
---------------------------------------------------------------------------------
-{GROUP S, GROUP R, GROUP T| S/VODML $\Rightarrow$ **StructuredType** & R $\in$
-S & `R/@ref` = `T@ID` & T/VODML $\Rightarrow$ **ObjectType** & R/VODML/ROLE
-$\Rightarrow$ **Reference** & T $\not\in$ TABLE & T $\subset$ RESOURCE [&
-R/VODML/TYPE = *“vo-dml:GROUPref”*]}
-
---------------------------------------------------------------------------------
-
-This pattern represents a source GROUP R (the *reference*), contained in
-a GROUP S (the *referrer*) representing a **StructuredType**,
-referencing a *target* GROUP T, representing a singleton **ObjectType**
-instance. The reference R uses its `@ref` attribute to identify the target
-GROUP T which is identified by a unique `@ID`. The GROUP R has no elements
-apart from the VODML element which MUST contain a ROLE identifying a
-particular **reference**; it MAY explicitly identify its VODML/TYPE as
-being *vo-dml:GROUPref*.
-
-We refer to this pattern represented by GROUP R as a “GROUPref”, it is a
-reference to an identified GROUP. But we use the quotes as we do not
-need an explicit GROUPref element in the sense of VOTABLE’s FIELDref and
-PARAMref to represent this concept. It can also be used in other
-patterns as shown in the next section.
+#### Description ####
 
 Restrictions
 
-  * The **Reference** identified by R/VODML/ROLE MUST be *available* on
-    the **StructuredType** identified by O/VODML.
+  * The **Reference** MUST be *available* on
+    the **StructuredType** identified by the referred instance.
 
-  * **OjectType** identified by T/VODML MUST be compatible with the
+  * The **OjectType** identified MUST be compatible with the
     **datatype** of the **Reference**, i.e. must either be the same type
     or one of its subtypes.
 
-  * The GROUP R representing the **Reference** must not have any child
-    elements apart from the VODML element.
-
-Example
-
-~~~~ {.xml .numberLines}
-<GROUP ID="_2massJ">
-  <VODML><TYPE>phot:PhotometryFilter</TYPE></VODML>
-  <PARAM name="name" datatype="char" value="2mass:J">
-    <VODML><ROLE>phot:PhotometryFilter.name</ROLE></VODML>
-  </PARAM>
-...
-</GROUP>
-...
-<GROUP>
-  <VODML><TYPE>src:source/Source</TYPE></VODML>
-  <GROUP>
-    <VODML>
-      <ROLE>src:source/Source.luminosity</ROLE>
-      <TYPE>src:source/LuminosityMeasurement</TYPE>
-    </VODML>
-  	<FIELDref ref="_magJ" >
-      <VODML><ROLE>src:source.LuminosityMeasurement.value</ROLE></VODML>
-    </FIELDref>
-   	<FIELDref ref="_errJ" >
-      <VODML><ROLE>src:source.LuminosityMeasurement.error</ROLE></VODML>
-    </FIELDref>
-   	<GROUP  ref="_2massJ">
-      <VODML><ROLE>src:source/LuminosityMeasurement.filter</ROLE></VODML>
-  </GROUP>
-...
-~~~~
+#### Example ####
 
 ### Reference to object(s) in a TABLE I: objects in same row
 
 Pattern Expression:
 
---------------------------------------------------------------------------------
-{GROUP S, GROUP R, GROUP T, TABLE TB| S/VODML $\Rightarrow$ **StructuredType** &
-R $\in$ S & `R/@ref` = `T@ID` & TB/VODML $\Rightarrow$ **ObjectType** & R/VODML/ROLE
-$\Rightarrow$ **Reference** & S $\subset$ TB & T $\subset$ TB [& R/VODML/TYPE =
-*“vo-dml:GROUPref”*] }
+#### Description ####
 
---------------------------------------------------------------------------------
+This pattern indicates that each row in a TABLE contains (at least)
+two objects S and T, and that S references T
+through the reference. R has no elements apart
+from the VODML element.
 
-This pattern represents a “reference GROUP” R, contained in “source
-GROUP” S representing a structured type, referencing a “target GROUP T”.
-Both S and T are contained in the same TABLE TB and a “GROUPref” is used
-to represent the reference.
+#### Example ####
 
-This pattern indicates that each row in the TABLE TB contains (at least)
-two objects, represented by GROUPS S and T, and that S references T
-through the reference represented by GROUP R. R has no elements apart
-from the VODML element; it MUST identify the actual **reference** in its
-VODML/ROLE element; it SHOULD explicitly identify its VODML/TYPE as
-being v*o-dml:GROUPref*; it MUST identify which reference it represents
-through its VODML/ROLE.
+### Reference to object(s) in a TABLE II: objects in different rows, possibly different TABLE { #sec:reference-table-ii }
 
-**Example**:
-
-TBD
-
-### Reference to object(s) in a TABLE II: objects in different rows, possibly different TABLE
-
-Pattern Expression:
-
---------------------------------------------------------------------------------
-{GROUP S, GROUP R, GROUP T, GROUP PK, GROUP FK | S $\subset$ TABLE & T $\subset$
-TABLE & S/VODML $\Rightarrow$ **StructuredType** & T/VODML $\Rightarrow$
-**ObjectType** & PK $\in$ T & PK/VODML/ROLE=*”vo-dml:ObjectTypeInstance.ID”* & R
-$\in$ S & R/VODML/ROLE $\Rightarrow$ **reference** & R/VODML/TYPE =
-*“vo-dml:ORMReference”* & FK $\in$ R &
-FK/VODML/ROLE=*”vo-dml:ObjectTypeInstance.ID”* [& `R/@ref` = `T@ID`] }
-
---------------------------------------------------------------------------------
+#### Description ####
 
 This is the most complex pattern in this specification. It is the
 analogue of a foreign key constraint in a relational database. The
-pattern represents a “reference GROUP” R, contained in “source GROUP” S
-representing a structured type, referencing a “target GROUP T”. S and T
+pattern represents a reference R, contained in a source object S
+representing a structured type, referencing a target instance T. S and T
 may be contained in the same TABLE, but in general this need not be the
 case.
 
-This pattern indicates that each row in the TABLE annotated by GROUP S
-contains a corresponding structured object, which has a reference to an
-object represented by GROUP T, located in some row in its TABLE. The
-reference is represented by the GROUP R. The GROUP R MUST identify which
-reference it represents through its VODML/ROLE. R MUST explicitly
-identify its VODML/TYPE as being *vo-dml:ORMReference*.
+This pattern indicates that each row in the TABLE contains a corresponding
+structured object, which has a reference to an object represented by T,
+located in some row in its TABLE. The reference is represented by R.
 
-This latter requirement indicates that this pattern represents an
-object-relational mapping pattern. It is clear that in contrast to the
+<!--
+It is clear that in contrast to the
 previous two cases the combination of `S/@ref` and `T/@ID` is not sufficient
 to identify which objects are related. To make the connection this
 specification prescribes that the relation must be based on a kind of
@@ -885,83 +492,37 @@ is important. I.e. FK’s FIELDref 1 must be matched to PKs FIELDref 1
 etc. to find the referenced objects. Note also that it is allowed that
 FIELDref-s in PK are matched by PARAMs in FK. [TBD other way as well?]
 
-Example:
+-->
 
-TBD
+#### Example ####
 
 ### Reference to Object in external data store
 
-**Pattern Expression**:
-
---------------------------------------------------------------------------------
-{GROUP O, GROUP S, PARAM P| O/VODML $\Rightarrow$ **StructuredType** & S $\in$ O &
-`S/@ref` = NULL & S/VODML/ROLE $\Rightarrow$ **Reference** & S/VODML/TYPE =
-*“vo-dml:RemoteReference”* & P $\in$ S & (P/VODML/ROLE =
-“*vo-dml:RemoteReference.ivoid”* | P/VODML/ROLE =
-“*vo-dml:RemoteReference.uri”*) }
-
---------------------------------------------------------------------------------
+#### Description ####
 
 This pattern identifies a reference to an object serialized elsewhere.
-Such an instance MUST be identified using an IVOA Identifier [12] if
+Such an instance MUST be identified using an IVOA Identifier [@ivoid] if
 it is stored in an IVOA Registry. However, a URL might be provided as a
-convenient hook for the client. The reference is again represented by a
-GROUP, but now with PARAM whose `@value` is an IVOA Identifier. As
-alternative one can use a URI, but exactly *how* that should be resolved
-is outside of the scope of this document.
+convenient hook for the client.
 
-**Example:**
-
-For example the previous example from the previous sub-section could be
-written as follows:
-
-``` {.xml .numberLines}
-<GROUP>
-  <VODML><TYPE>src:source/Source</TYPE></VODML>
-  <GROUP>
-    <VODML>
-      <ROLE>src:source/Source.luminosity</ROLE>
-      <TYPE>src:source/LuminosityMeasurement</TYPE>
-    </VODML>
-  	<FIELDref ref="_magJ" >
-      <VODML><ROLE>src:source.LuminosityMeasurement.value</ROLE></VODML>
-    </FIELDref>
-   	<FIELDref ref="_errJ"  >
-      <VODML><ROLE>src:source.LuminosityMeasurement.error</ROLE></VODML>
-    </FIELDref>
-   	<GROUP >
-      <VODML>
-        <ROLE>src:source/LuminosityMeasurement.filter</ROLE>
-        <TYPE>vo-dml:RemoteReference</TYPE>
-      </VODML>
-      <PARAM name="ivoid" datatype="char" arraysize="*"
-             value="ivo://ivoa.registry/dm/phot/instances/2mass.J">
-        <VODML><ROLE>vo-dml:RemoteReference.ivoid</ROLE></VODML>
-      </PARAM>
-      <PARAM name="ivoid" datatype="char" arraysize="*"
-             value="http://ivoa.registry/dm/phot/instances/2mass#J">
-        <VODML><ROLE>vo-dml:RemoteReference.uri</ROLE></VODML>
-      </PARAM>
-  </GROUP>
-...
-```
+#### Example ####
 
 Here it is assumed that the DM working group maintains a set of data
 model instance documents for various instruments and stores these in
-some registry. [TBD check how realistic the ivoId is, add URL.]
+some registry.
 
 Composition
 -----------
 
 A **Composition** is defined in VO-DML as a “whole-parts” relation
 between parent and child **ObjectTypes**. The child can be interpreted
-as defining a *part* of the parent, the parent is “composed of” the
+as defining a *part* of the parent, the parent is *composed of* the
 child objects. Generally a parent can have a collection of 0..N children
 of a certain type, where N may be unbounded, but the multiplicity can be
 more constrained. The relation between the child and its parent is much
 stronger than the relation between a source and a target in a
 **Reference** relation. In particular the child’s life-cycle is tightly
-coupled to its parent: a child only has one parent and when when the
+coupled to its parent: a child only has one parent and when the
 parent is deleted, so is the child. Because of this also the
 serialization of the relationship may in many cases be more direct than
 the indirect reference mapping patterns of the previous section.
@@ -969,12 +530,12 @@ the indirect reference mapping patterns of the previous section.
 For example, in faithful XML serializations of a data model one will
 generally map child objects as elements directly contained by the parent
 element. It is possible to do so in VOTable as well, having a child
-object represented by a GROUP that is contained within the GROUP
+object represented by an INSTANCE that is contained within the INSTANCE
 representing the parent. This pattern is the most natural for this
 relationship because a collection element is really to be considered as
 a *part* of the parent object.
 
-This containment of GROUPs can be used for singleton patterns in an
+This containment of INSTANCEs can be used for individual objects in an
 obvious manner. But it may also be used to represent a flattening of the
 parent-child relation in a TABLE. One or more child objects may be
 stored together with the parent object in the same row in a TABLE. Such
@@ -989,39 +550,31 @@ generally not allow for such a containment. The typical pattern is that
 the table representing the child **ObjectType** has a foreign key to the
 table representing the parent. This specification allows for this
 mapping pattern as well, using the ORMReference pattern from section
-7.6.3 in combination with the implicit *vo-dml:ObjectType.container*
-**Reference**.
+[@sec:reference-table-ii].
 
-### Composition I: child GROUP inside parent GROUP
+### Composition I: child instance inside parent instance
 
-**Pattern Expression**:
+#### Description ####
 
---------------------------------------------------------------------------------
-{GROUP P, GROUP C | C $\in$ P & P/VODML $\Rightarrow$ **ObjectType**
-  & C/VODML/ROLE $\Rightarrow$ **Composition**
-[& C/VODML/TYPE $\Rightarrow$ **ObjectType**] }
-
---------------------------------------------------------------------------------
-
-GROUP C represents a child object in a **collection** on some
-**ObjectTupe** identified by its VODML/ROLE, and of **datatype**
-possibly identified by its VODML/TYPE. In this pattern C is contained
-inside of a GROUP P that represents an **ObjectType** that is a valid
+INSTANCE C represents a child object in a **collection** on some
+**ObjectTupe** identified by its ROLE, and of **datatype**
+possibly identified by its TYPE. In this pattern C is contained
+inside of an INSTANCE P that represents an **ObjectType** that is a valid
 **Container** of the **Collection**.
 
-No statement is made about the location of the parent GROUP. If it is
-inside a RESOURCE, *not* in a TABLE, both parent and child represent
-singleton objects. If it is inside a TABLE, each row stores both parent
-and child objects.
+No statement is made about the location of the parent INSTANCE. Both parent and
+child may represent individual, global objects. If their instances refer to
+TABLEs, each row stores both parent and child objects.
 
-Note also that there may be multiple child GROUPs identifying the same
-composition relation in the same parent GROUP.
+Note also that there may be multiple child INSTANCEs identifying the same
+composition relation in the same parent INSTANCE.
 
-Example
-
-See example in 6.4
+#### Example ####
 
 ### Composition II: object-relational reference from child to parent, both in TABLEs
+
+
+#### Description ####
 
 Every instance of an **ObjectType** inherits from its implicit ultimate
 super type *vo-dml:ObjectTypeInstance* its
@@ -1035,25 +588,12 @@ In the case of serializing to a VOTable, this allows one to implement an
 object relational mapping pattern for the parent-child relation as
 described in the introduction to this section.
 
-Pattern Expression:
+The INSTANCE CH represents a collection of child objects that are contained in
+parent objects represented by INSTANCE P. CH and P are generally stored in
+different tables. CH references P following the ORM reference pattern described
+in section [@sec:reference-table-ii] above.
 
---------------------------------------------------------------------------------
-{GROUP CH, GROUP R, GROUP P, GROUP PK, GROUP FK | CH $\subset$ TABLE & P
-$\subset$ TABLE & CH/VODML $\Rightarrow$ **ObjectType** & P/VODML $\Rightarrow$
-**ObjectType** & PK $\in$ P & PK/VODML/ROLE=”*vo-dml:ObjectTypeInstance.ID*” & R
-$\in$ CH & R/VODML/ROLE = “*vo-dml:ObjectTypeInstance.container*” & R/VODML/TYPE
-= “*vo-dml:ORMReference*” & FK $\in$ R &
-FK/VODML/ROLE=”*vo-dml:ObjectTypeInstance.ID*” [& `CH/@ref` = `P@ID`] }
-
---------------------------------------------------------------------------------
-
-The GROUP CH represents a collection of child objects that are contained
-in parent objects represented by GROUP P. CH and P are generally stored
-in different tables. CH references P following the ORM reference pattern
-described in section 7.6.3 above. The only constraint is that the
-VODML/ROLE on the GROUP representing the reference MUST be
-*vo-dml:ObjectTypeInstance.container*.
-
+<!--
 For clients it is useful if an identification is made *which* collection
 on the parent object the type represented by GROUP CH belongs to. The
 VO-DML spec restricts types to be the child in at most one composition
@@ -1108,11 +648,11 @@ collection-reference is encountered.
 **TODO** should we merge these patterns into one? Would make the pattern even
 more complex.
 
-**Example**:
+-->
 
-TBD
+#### Example ####
 
-Extends, inheritance (**TODO** needs work!)
+Extends, inheritance
 --------------------
 
 The inheritance relation between two **Type**-s might seem not to be
@@ -1125,9 +665,7 @@ super-type are identified with the *vodml-id* defined on the super-type.
 There are some special cases though where inheritance makes a
 non-trivial appearance. The first we have seen already, in that we can
 explicitly *cast* a **Role’s** value to a sub-type of a declared
-datatype. Supporting this type of polymorphism at the serialization
-level is one main motivation for adding `<TYPE>` to the
-`<VODML>` element. See Appendix B for a discussion how different
+datatype. See Appendix B for a discussion how different
 types of clients can deal with this.
 
 There are however subtler issues related to inheritance mapping. An
@@ -1158,227 +696,20 @@ type.
 
 This pattern can be supported as well.
 
-Pattern Expression:
-
-(**TODO** Pattern missing?)
-
-In this case the $\Uparrow$ symbol means that the leftmost ObjectType *extends*
-the rightmost ObjectType, adding some Attributes to it. Attributes can
-be structured or unstructured, direct or indirect, recursively. This
-mapping pattern leverages the patterns introduced in the previous
-sections.
+(**TODO** The above description assumes one wants to serialize instances of
+  multiple types in the same table or set of tables. Do we have a use case for
+  this? If this is not required, this section should just highlight that
+  the `vodml-ref`s for an instance of a subtype are inherited from the
+  supertype.)
 
 The extending type inherits all of the parent type’s Attributes and
 their VO-DML-refs (including the prefixes), and adds its own Attributes
 and their VO-DML-refs (including the prefixes).
 
 The extending type also inherits all of the parent’s ancestors,
-recursively. Thus, the serialization of the child type MUST include all
-the ancestors’ declarations of *vo-dml:Instance.type*. This makes it
-possible for clients of any ancestor to recognize the instance and to
-correctly apply polymorphism.
+recursively.
 
-It is possible that types in a Model extend types in the same Model. In
-this case one can already tell them apart from the a priori knowledge of
-a Model, or by parsing the VO-DML description of the Model, and
-**vodml-id**-s cannot clash by definition. So, the pattern described
-above, where the child representation carries over the
-vo-dml:Instance.type from its ancestors only applies to inter-Model
-extensions, UNLESS the extended type is abstract. In this case, clients
-may want to look for the abstract type before interpreting the actual
-concrete type. For instance, a client may look for all the
-“*src:source.SkyError*” instances before interpreting them as a circle
-error, an elliple error, and so on.
-
-For example, assuming that the ExtentedSource Model extends the Source
-Model (Attribute source.Source.redshift), and that the
-ExtendedExtendedSource Model extends the ExtendedSource Model (Attribute
-source.Source.profile), a serialization will look like this:
-
-**Example**
-
-``` {.xml .numberLines hl_lines="1 2"}
-<TABLE>
-<GROUP>
-  <VODML>
-    <TYPE>xxsrc:Source</TYPE>
-    <TYPE>xsrc:Source</TYPE>
-    <TYPE>src:source.Source</TYPE>
-  </VODML>
-  <FIELDref ref="_designation">
-    <VODML><ROLE>vo-dml:ObjectTypeInstance.ID</ROLE></VODML>
-  </FIELDref>
-  <FIELDref ref="_designation">
-    <VODML><ROLE>src:source.Source.name</ROLE></VODML>
-  </FIELDref>
-  <FIELDref ref="_z">
-    <VODML><ROLE>xsrc:source.Source.redshift</ROLE></VODML>
-  </FIELDref>
-  <FIELDref ref="_profile">
-    <VODML><ROLE>xxsrc:source.Source.profile</ROLE></VODML>
-  </FIELDref>
-  <PARAM name="type" value="galaxy">
-    <VODML><ROLE>src:source.Source.classification</ROLE></VODML>
-  </PARAM>
-  <GROUP>
-    <VODML>
-      <TYPE>src:source.SkyCoordinate</TYPE>
-      <ROLE>src:source.Source.position</ROLE>
-    </VODML>
-    <FIELDref ref="_ra">
-      <VODML><ROLE>src:source.SkyCoordinate.longitude</ROLE></VODMLL>
-    </FIELDref>
-    <FIELDref ref="_dec">
-    <VODML><ROLE>src:source.SkyCoordinate.latitude</ROLE></VODMLL>
-    </FIELDref>
-    <GROUP ref="_icrs">
-      <VODML><ROLE>src:source.SkyCoordinate.frame</ROLE></VODMLL>
-    </GROUP>
-  </GROUP>
-</GROUP>
-<FIELD name="designation" ID="_designation" .../>
-<FIELD name="ra" ID="_ra" unit="deg" .../>
-<FIELD name="dec" ID="_dec"  unit="deg" .../>
-<FIELD name="z" ID="_z" .../>
-<FIELD name="profile" ID="_profile" .../>
-<TR><TD>08120809-0206132</TD><TD>123.033734</TD><TD>-2.103671</TD><TD>0.123</TD><TD>devaucoulers</TD></TR>
-...
-</TABLE>
-```
-
-In this example we have assumed that the VO-DML preamble declared the
-xsrc prefix for the ExtendedSource Model and the xxsrc prefix for the
-ExtendedExtendedSource Model.
-
-Value, Unit, UCD
-----------------
-
-Some DataTypes may have attribute names that can be naturally mapped to
-the VOTable PARAM and FIELD attributes. In this case, the following
-rules apply:
-
-  * the value of the DataType's 'value' attribute is stored in the
-    `@value` attribute of the PARAM, or the TD corresponding to the
-    annotated FIELD.
-  * the value of the DataType’s 'unit' attribute is represented by the
-    `@unit` attribute of the PARAM, or the annotated FIELD.
-  * the value of the 'ucd' attribute is mapped to the `@ucd` attribute of
-    the annotated FIELD or PARAM
-
-(**TODO** Extend this pattern to datatype, arraysize? ivoa:Quantity DM.)
-
-Notable absences {#sec:absences}
-================
-
-The VOTable schema allows for redundancy in meta-data assignment. For
-example it allows assigning a UCD or UTYPE to FIELDrefs, but also to the
-FIELD it references. How is one to interpret or use this? Our approach
-is to try to avoid this redundancy.
-
-The design laid out in the previous sections focuses UTYPE assignments
-on the GROUP element and its components. The main reason is that in all
-but the most simplistic use cases we will not be able to void the use of
-GROUPs, and that at the same time they provide all functionality (and
-more) that TABLE and FIELD could provide. Choosing this approach implies
-client coders do not need to take the possibly conflicting assignments
-into account, they only need consider GROUPs.
-
-Here we list a few possible assignments that we avoid, though they might
-seem valid.
-
-Atomic Types: support for custom and legacy UTYPEs
---------------------------------------------------
-
-It is worth stressing explicitly that some VOTable elements are not
-covered by this specification (e.g. TABLE, RESOURCE, INFO, FIELD, and
-standalone PARAM). Also, according to this specification some elements
-will be ignored in the de-serialization of DM instances if their UTYPEs
-do not have a prefix declared in the VO-DML preamble.
-
-This is intentional, and its purpose is to achieve full backward
-compatibility of this standard with the current non-standardized usages,
-while enabling new, complex Data Models to be effectively serialized in
-a standardized way.
-
-Atomic Types are types referenced by `@utype` attributes of FIELDs and
-standalone PARAMs (i.e. PARAMs not included in GROUPs). Usually these
-UTYPEs are path-like strings pointing to some implicit and unspecified
-meta-model in an atomic fashion. Such UTYPEs can happily coexist with
-UTYPEs used according to this specification.
-
-Not only this means that this standard does not break any of the
-existing standards. Not only this means that it enables customized use
-of the `@utype` attribute in local implementations. This also means that
-in order to make a legacy VOTable file compliant with the new specs,
-Data Providers will only need, if willing to do so, to add some GROUP
-definitions to its header. Old clients of that file will still be able
-to parse them, while new generation clients will be able to perform
-their more advanced usage of the new specification.
-
-Packages
---------
-
-No use cases require the serialization of Package instances in VOTable.
-Package names are encoded in the UTYPE syntax of VO-DML for avoiding
-name clashes when two classes in different packages of the same model
-have the same name (other than that, UTYPEs are effectively opawue). The
-use of ‘.’ as the separator for the Package->Type relationship (e.g.
-source.Source) might cause name clashes when a package contains a Type
-and a Package with the same name. However, packages cannot be directly
-referenced by UTYPEs, so this is not an issue.
-
-ObjectType to TABLE
--------------------
-
-Pattern expression:
-
---------------------------------------------------------------------------------
-{ TABLE $\Rightarrow$ **ObjectType** }
-
---------------------------------------------------------------------------------
-
-There might be some cases where a TABLE could be said to represent a
-structured type completely, and where the TABLE could be annotated with
-a `<VODML>` element to indicate this. However in probably most cases
-only part of the TABLE will correspond to the type, or it will contain
-instances of multiple types stored inside a single row (e.g. photometry
-catalogs).
-
-In all of these cases one can (and MUST) use one or more GROUP elements
-contained by the TABLE to make the precise assignment. Hence we extend
-this to the rare case where the TABLE might have been annotated to
-simplify the spec. By leaving this mapping pattern out we do not lose
-any information content. Also, this way client code only has to deal
-with GROUPs, with no need to inspect the TABLE.
-
-Attribute to FIELD|PARAM in TABLE
----------------------------------
-
-Pattern expression:
-
---------------------------------------------------------------------------------
-[Field $\Rightarrow$ Attribute] $\in$ [TABLE $\Rightarrow$ ObjectType]
-
---------------------------------------------------------------------------------
-
-Pattern expression:
-
---------------------------------------------------------------------------------
-[PARAM $\Rightarrow$ Attribute] $\in$ [TABLE $\Rightarrow$ ObjectType]
-
---------------------------------------------------------------------------------
-
-Assigning an Attribute to a FIELD would only make sense in the context
-of a structured container, which can only be TABLE. But as we propose
-not to use TABLE to represent a DM element directly, consequently FIELD
-need not have this capability. We use FIELDref for that.
-
-For the same reason that makes us avoid the assignment of Attribute to
-FIELD, we avoid assigning an attribute to a standalone PARAM, i.e. a
-PARAM *that is directly contained in a TABLE or RESOURCE*. The context
-(TABLE) is not used to indicate the type containing the Attribute. For
-this element a PARAMref or a PARAM inside a GROUP is to be used. This
-again enables backward compatibility.
+#### Example ####
 
 Serializing to other file formats {#sec:other}
 =================================
