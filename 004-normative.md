@@ -1,4 +1,4 @@
-Patterns for annotating VOTable [NORMATIVE] {#sec:normative}
+Patterns for annotating VOTable [NORMATIVE] { #sec:normative }
 ===========================================
 
 In this section we list all legal mapping patterns that can be used to
@@ -229,8 +229,8 @@ PrimitiveType and Enumeration
 appear in serializations of data models predominantly in their role as
 attributes defined on structured types (**ObjectType** or **DataType**)
 and this specification focuses on that role. VO-DML assumes
-the existence of a standard data model (**TODO** *ivoa,* see [@vo-dml] TBD refer to
-actual model) defining primitive types such as *ivoa:integer*,
+the existence of a standard data model, namely the `ivoa` model
+defined in [@vodml], defining primitive types such as *ivoa:integer*,
 *ivoa:string* etc. But there is no new semantics implied by these types
 beyond the ones their counterparts in the VOTable schema carry[^16].
 
@@ -293,9 +293,9 @@ Restrictions
     (*ivoa:integer*) **Attribute** SHOULD be represented by VOTable’s
     int or long.
 
-### Example ###
+#### Example ####
 
-### Attribute value {sec:attribute-value}
+### Attribute value { #sec:attribute-value }
 
 #### Description ####
 
@@ -349,7 +349,7 @@ relation, many referrers can reference the same target object. The
 implication of a Reference relation is that the referenced object is
 somehow “used” by the referrer. Often, especially when the referrer is a
 **DataType**, it defines reference data that helps interpret the values
-its attributes assume. See the VO-DML document [@vo-dml] for more
+its attributes assume. See the VO-DML document [@vodml] for more
 information.
 
 In explicit serialization languages [TBD must define and discuss this
