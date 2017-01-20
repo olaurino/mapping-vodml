@@ -203,11 +203,13 @@ Restrictions:
     available to the structured type represented by the containing
     `INSTANCE`.
 
-  * The attribute `INSTANCE` **SHOULD** also declare the actual structured type
-    it represents, through its `VODML/TYPE`. This type **MUST** be a valid type
-    for the **Attribute**, i.e. the **Attribute’s** declared type or one
+  * The attribute `INSTANCE` **SHOULD** (**TODO** OL: let's make sure information
+    is equally available to naive and guru clients... if it is, we might even remove
+    this altogether rather than having a **SHOULD**) also declare the actual structured type
+    it represents, through its `TYPE`. This type **MUST** be a valid type
+    for the **Attribute**, i.e. the **Attribute**'s declared type or one
     of its subtypes. If the type in the serialization is a subtype, the
-    `VODML/TYPE` **MUST** declare that.
+    `TYPE` **MUST** declare that.
 
 #### Example ####
 
