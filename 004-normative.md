@@ -516,15 +516,15 @@ the indirect reference mapping patterns of the previous section.
 For example, in faithful XML serializations of a data model one will
 generally map child objects as elements directly contained by the parent
 element. It is possible to do so in VOTable as well, having a child
-object represented by an INSTANCE that is contained within the INSTANCE
+object represented by an `INSTANCE` that is contained within the `INSTANCE`
 representing the parent. This pattern is the most natural for this
 relationship because a collection element is really to be considered as
 a *part* of the parent object.
 
-This containment of INSTANCEs can be used for individual objects in an
+This containment of `INSTANCE`s can be used for individual objects in an
 obvious manner. But it may also be used to represent a flattening of the
-parent-child relation in a TABLE. One or more child objects may be
-stored together with the parent object in the same row in a TABLE. Such
+parent-child relation in a `TABLE`. One or more child objects may be
+stored together with the parent object in the same row in a `TABLE`. Such
 a case is actually very common, for example when interpreting tables in
 typical source catalogues. These generally contain information of a
 source together with one or more magnitudes. The latter can be seen as
