@@ -304,17 +304,14 @@ Restrictions
 
 #### Description ####
 
-Inside a GROUP a PARAMref identifies a PARAM defined inside the same
-RESOURCE or TABLE where the GROUP is defined. Using its VODML/ROLEthe
-PARAMref can annotate the PARAM as holding the value of an
-**Attribute**.
+(**TODO** somebody thinks we should not even support this. So should we?)
 
 Restrictions
 
   * The **Attribute** must be available to the structured type
-    represented by the containing INSTANCE.
+    represented by the containing `INSTANCE`.
 
-  * The PARAM referencd by the reference MUST obey the restrictions
+  * The `PARAM` referencd by the reference MUST obey the restrictions
     defined for the annotation of a PARAM by the **Attribute’s** type in
     {@sec:attribute-value}.
 
