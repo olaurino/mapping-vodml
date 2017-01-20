@@ -40,15 +40,6 @@ redundant with text above in section ...)
 -   References to VO-DML elements will be capitalized and in **bold face**,
 -   using their VO-DML/XSD type definitions. E.g. **ObjectType**, **Attribute**.
 
--   Some mapping solutions require a reference to a GROUP defined
-    elsewhere in the same VOTable. We refer to such a construct as a
-    “GROUPref”, which is not an element of the current VOTable
-    standard (v1.3). It refers to a GROUP with a `@ref` attribute, which
-    must *always* identify another GROUP in the same document. The
-    target GROUP must have an `@id` attribute. In cases where this is
-    important we will indicate that this combination is to be
-    interpreted as a “GROUPref”, including the quotes.
-
 The following list defines some shorthand phrases (underlined), which we
 use in the descriptions below:
 
