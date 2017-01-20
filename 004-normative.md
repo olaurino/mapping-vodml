@@ -436,8 +436,7 @@ Restrictions
 
 This pattern indicates that each row in a TABLE contains (at least)
 two objects S and T, and that S references T
-through the reference. R has no elements apart
-from the VODML element.
+through the reference.
 
 #### Example ####
 
