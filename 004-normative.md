@@ -542,18 +542,18 @@ mapping pattern as well, using the ORMReference pattern from section
 
 #### Description ####
 
-INSTANCE C represents a child object in a **collection** on some
-**ObjectTupe** identified by its ROLE, and of **datatype**
-possibly identified by its TYPE. In this pattern C is contained
-inside of an INSTANCE P that represents an **ObjectType** that is a valid
+`INSTANCE` C represents a child object in a **Collection** on some
+**ObjectTupe** identified by its **Role**, and of **DataType**
+possibly identified by its **Type**. In this pattern C is contained
+inside of an `INSTANCE` P that represents an **ObjectType** that is a valid
 **Container** of the **Collection**.
 
-No statement is made about the location of the parent INSTANCE. Both parent and
+No statement is made about the location of the parent `INSTANCE`. Both parent and
 child may represent individual, global objects. If their instances refer to
-TABLEs, each row stores both parent and child objects.
+`TABLE`s, each row stores both parent and child objects.
 
-Note also that there may be multiple child INSTANCEs identifying the same
-composition relation in the same parent INSTANCE.
+Note also that there may be multiple child `INSTANCE`s identifying the same
+composition relation in the same parent `INSTANCE`.
 
 #### Example ####
 
