@@ -431,7 +431,6 @@ Restrictions
 
 ### Reference to object(s) in a TABLE I: objects in same row
 
-Pattern Expression:
 
 #### Description ####
 
