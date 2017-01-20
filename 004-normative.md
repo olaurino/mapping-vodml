@@ -40,7 +40,7 @@ redundant with text above in section ...)
 -   References to VO-DML elements will be capitalized and in **bold face**,
 -   using their VO-DML/XSD type definitions. E.g. **ObjectType**, **Attribute**.
 
-The following list defines some shorthand phrases (underlined), which we
+The following list defines some shorthand phrases (*italicized*), which we
 use in the descriptions below:
 
 -   Generally when using the phrase *meta-type* we mean a "kind of" type
@@ -54,8 +54,8 @@ use in the descriptions below:
     as defined in VO-DML.
 
 -   With a property *available on* or *defined on* a (structured) type
-    we will mean an Attribute or Reference, or (in the case
-    of ObjectTypes) a Collection defined on that type itself, or
+    we will mean an **Attribute** or **Reference**, or (in the case
+    of **ObjectType**s) a **Collection** defined on that type itself, or
     inherited from one of its base class ancestors.
 
 -   A VO-DML **Type**  *plays a role* in the definition of
