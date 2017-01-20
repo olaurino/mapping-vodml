@@ -651,7 +651,7 @@ super-type are identified with the *vodml-id* defined on the super-type.
 There are some special cases though where inheritance makes a
 non-trivial appearance. The first we have seen already, in that we can
 explicitly *cast* a **Role’s** value to a sub-type of a declared
-datatype. See Appendix B for a discussion how different
+datatype. See [@sec:clients] for a discussion on how different
 types of clients can deal with this.
 
 There are however subtler issues related to inheritance mapping. An
