@@ -276,7 +276,8 @@ Restrictions
   * The reference MUST identify a `FIELD` in a `TABLE`. The `FIELD` is guaranteed
   to be unique by the XML/VOTable rules for `ID`s.
 
-  * The **Attribute** MUST have an atomic datatype.
+  * The **Attribute** MUST have an atomic datai type or an `ivoa:Quantity` as
+  described in [@sec:quantity].
 
   * The `@datatype` of the referenced `FIELD` SHOULD be compatible with the
     declared **datatype** of the **Attribute**. E.g. an integer
@@ -292,8 +293,8 @@ Restrictions
 Restrictions
 
   * The **Attribute**’s **datatype** MUST identify an atomic type, i.e.
-    a **PrimitiveType** or **Enumeration**, or a **DataType** from the
-    set of special cases described in be section 7.9.
+    a **PrimitiveType** or **Enumeration**, or an `ivoa:Quantity` as described in
+    [@sec:quantity]
   * The PARAM `@datatype` SHOULD be a compatible, valid serialization type
     for the **datatype** of the **Attribute**.
 
@@ -700,6 +701,13 @@ The extending type also inherits all of the parent’s ancestors,
 recursively.
 
 #### Example ####
+
+Quantities {#sec:quantity}
+----------
+
+(**TODO** This section is a placeholder for a potential mechanism similar
+to what we had for value, unit, and ucd in the original document. We might
+decide to have an entirely different mechanism and remove this section.)
 
 Serializing to other file formats {#sec:other}
 =================================
