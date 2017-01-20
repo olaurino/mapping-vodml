@@ -267,25 +267,21 @@ Attributes
 
 #### Description ####
 
-  * A FIELDref contained in a GROUP represents an Attribute serialized
-    by the FIELD it refers to.
-
 Restrictions
 
   * The **Attribute** identified by the element MUST be
     available to the structured type represented by the containing
-    INSTANCE.
+    `INSTANCE`.
 
-  * The reference MUST identify a FIELD in a TABLE. The FIELD is guaranteed
-  to be unique by the XML/VOTable rules for IDs.
+  * The reference MUST identify a `FIELD` in a `TABLE`. The `FIELD` is guaranteed
+  to be unique by the XML/VOTable rules for `ID`s.
 
-  * The **Attribute** MUST have an atomic datatype, or a **DataType**
-    from the set of special cases described in section 7.9.
+  * The **Attribute** MUST have an atomic datatype.
 
-  * The `@datatype` of the referenced FIELD SHOULD be compatible with the
+  * The `@datatype` of the referenced `FIELD` SHOULD be compatible with the
     declared **datatype** of the **Attribute**. E.g. an integer
     (*ivoa:integer*) **Attribute** SHOULD be represented by VOTable’s
-    int or long.
+    int or long. (**TODO** OL: what is a client supposed to do if it is not?)
 
 #### Example ####
 
