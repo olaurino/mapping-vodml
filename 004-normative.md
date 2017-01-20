@@ -563,9 +563,9 @@ composition relation in the same parent `INSTANCE`.
 #### Description ####
 
 Every instance of an **ObjectType** inherits from its implicit ultimate
-super type *vo-dml:ObjectTypeInstance* its
-*vo-dml:ObjectTypeInstance.container* property. In the *vo-dml* model
-this is represented as a collection of type *vo-dml:Reference*, with
+super type *vodml-map:ObjectTypeInstance* its
+*vodml-map:ObjectTypeInstance.container* property. In the *vodml-map* model
+this is represented as a collection of type *vodml-map:Reference*, with
 multiplicity 0..1. This should be interpreted as the possibility of
 adding on a serialized **ObjectType** instance a reference to its
 container/parent object.
@@ -574,8 +574,8 @@ In the case of serializing to a VOTable, this allows one to implement an
 object relational mapping pattern for the parent-child relation as
 described in the introduction to this section.
 
-The INSTANCE CH represents a collection of child objects that are contained in
-parent objects represented by INSTANCE P. CH and P are generally stored in
+The `INSTANCE` CH represents a collection of child objects that are contained in
+parent objects represented by `INSTANCE` P. CH and P are generally stored in
 different tables. CH references P following the ORM reference pattern described
 in section [@sec:reference-table-ii] above.
 
