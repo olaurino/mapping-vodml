@@ -340,8 +340,8 @@ somehow “used” by the referrer. Often, especially when the referrer is a
 its attributes assume. See the VO-DML document [@vodml] for more
 information.
 
-In explicit serialization languages [TBD must define and discuss this
-term earlier in this document, say in section 3] such as XML Schema or
+In explicit serialization languages (**TODO** must define and discuss this
+term earlier in this document, say in section 3) such as XML Schema or
 the relational model there is support for representing this relation.
 E.g. XML schema allows one to define an attribute of type ID, which must
 have a value unique in the document. Another element can “refer” to this
@@ -354,7 +354,7 @@ the referenced element.
 
 If a restriction on the referenced element is desired, XML Schema also
 allows one to define a “key/keyref” combination. A *key* has a unique
-name and is defined using an XPath [REF] “selector”, identifying a set
+name and is defined using an XPath (**TODO** REF) “selector”, identifying a set
 of elements in a document and one or more fields that define the unique
 values distinguishing between these elements. A *keyref* can similarly
 be defined by the name of the target key, a selector identifying the
