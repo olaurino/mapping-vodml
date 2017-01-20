@@ -63,9 +63,9 @@ use in the descriptions below:
     a property available on the latter.
 
 -   When writing that a VOTable element *represents* a certain VO-DML
-    type, we mean that the VOTable element is mapped through its
-    `<VODML>` annotation either directly to the type, or that it
-    identifies a role played by the type in another type’s definition.
+    type, we mean that the VOTable element is mapped either directly to the
+    type, or that it identifies a role played by the type in another type’s
+    definition.
 
 -   A *descendant* of a VOTable element is an element contained in that
     element, or in a descendant of that element. This is a standard
