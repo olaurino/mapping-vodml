@@ -3,10 +3,9 @@ Patterns for annotating VOTable [NORMATIVE] { #sec:normative }
 
 In this section we list all legal mapping patterns that can be used to
 express how instances of VO-DML-defined types are represented in a
-VOTable and the possible roles they play. It defines which VOTable
-elements can be annotated with `<VODML>` elements described in
-section 4, what restrictions there are and how to interpret the
-annotation.
+VOTable and the possible roles they play. It defines the VOTable
+annotation syntax, what restrictions there are, and how to interpret the
+annotation semantically.
 
 The organization of the following sections is based on the different
 VO-DML concepts that can be represented. Each of these subsections
