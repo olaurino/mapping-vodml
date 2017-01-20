@@ -101,7 +101,7 @@ Model
 
 #### Example ####
 
-ObjectType
+ObjectType {#sec:objecttype}
 ----------
 
 ### Individual, global ObjectType instance ###
@@ -122,35 +122,35 @@ ObjectType
 
 #### Example ####
 
-DataType
+DataType {#sec:datatype}
 --------
 
 A DataType instance (also a *value*) is structured; it consists of
 values assigned to each of its attributes and possibly references. To
 represent the complete instance of a DataType the various attributes
-(and references) must be grouped together; in VOTable this is done using
-a GROUP element. GROUPs in fact can play two different roles, depending
-on where the instance’s data is really stored. If all values are
-eventually stored exclusively in PARAMs in the GROUP, or possibly
-outside the GROUP but accessed through PARAMrefs, the GROUP *directly*
-represents a complete instance.
+(and references) must be grouped together in an `INSTANCE`;
+If all values are stored exclusively inside this element or the elements
+its descendants point to and are not stored in any table elements,
+then the `INSTANCE` is said to *directly*
+represent a complete instance.
 
-If even only one of the attributes is stored in a FIELD and accessed
-through a FIELDref, the GROUP *indirectly* represents possibly multiple
-instances, one for each TR. This is also true in any child GROUP
-containing a FIELDref and so on. We will use these terms, *direct* and
-*indirect* representation all through the document. And note that this
-same classification holds for ObjectTypes discussed in 7.2, though with
-a twist related to possible child GROUPs representing Collections.
+If even only one of the attributes is stored in a `FIELD` and accessed
+through a reference by any of the `INSTANCE`'s descendants,
+then the `INSTANCE` is said to *indirectly* represent
+possibly multiple
+instances, one for each `TR`.
 
-The attribute values of a DataType are stored according to the
+We will use these terms, *direct* and
+*indirect* representation all through the document.
+
+The attribute values of a **DataType** are stored according to the
 prescription for storing instances of their data type. For attributes
-with declared data type a PrimitiveType or Enumeration section provides
-details. If the attribute’s data type is itself a DataType the
+with declared data type a **PrimitiveType** or **Enumeration** section provides
+details. If the attribute’s data type is itself a **DataType** the
 prescription in the current section should be used recursively.
-DataTypes can also have References to ObjectTypes, but a discussion of
-how to store References is deferred to section 7.4, after the discussion
-of storing ObjectType instances, which is provided in section 7.2.
+**DataTypes** can also have References to **ObjectTypes**, but a discussion of
+how to store **References** is deferred to [@sec:references], after the discussion
+of storing **ObjectType** instances, which was provided in section [@sec:objecttype].
 
 ### Individual, global DataType instance ###
 
@@ -326,7 +326,7 @@ Restrictions
 
 #### Example ####
 
-References
+References {#sec:references}
 ----------
 
 A **Reference** is a relation between a structured type (the “referrer”,
