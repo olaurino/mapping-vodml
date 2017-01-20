@@ -104,6 +104,9 @@ Model
 ObjectType {#sec:objecttype}
 ----------
 
+(**TODO** Is this section supposed to come after DataType as it inherits all
+of the DataType's patterns, e.g. Attributes?)
+
 ### Individual, global ObjectType instance ###
 
 #### Description ####
