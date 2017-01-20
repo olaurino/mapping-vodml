@@ -37,9 +37,8 @@ redundant with text above in section ...)
 -   When referring to an XML attribute on a VOTable element we will
     prefix it with a ‘@’, e.g. `@id`, `@ref`.
 
--   References to VO-DML elements will be capitalized and in **courier
-    bold**, using their VO-DML/XSD type definitions. E.g.
-    ObjectType, Attribute.
+-   References to VO-DML elements will be capitalized and in **bold face**,
+-   using their VO-DML/XSD type definitions. E.g. **ObjectType**, **Attribute**.
 
 -   Some mapping solutions require a reference to a GROUP defined
     elsewhere in the same VOTable. We refer to such a construct as a
