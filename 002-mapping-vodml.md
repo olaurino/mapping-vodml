@@ -107,6 +107,10 @@ definition exclusively.  In case a client requires the exact minor
 version of the data model, it must inspect the models declarations
 as described in [@sec:normative]
 
+(**TODO** OL: This doesn't feel right. I believe minor versions should be uniquely
+identified by a URI and without having to parse the descriptor, especially since
+we have started talking about registering models in the Registry.)
+
 #### How to look for a vodmlref in a document
 
 (**TODO** to fill out once the syntax has settled)
@@ -117,7 +121,7 @@ General information about this spec {#sec:info}
 Sample model and instances
 --------------------------
 
-(**TODO** This needs to be filled with the designated sample model
+(**TODO** This needs to be filled with the designated sample model)
 
 <!--
 
