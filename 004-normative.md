@@ -285,7 +285,7 @@ Restrictions
 
 #### Example ####
 
-### Attribute value { #sec:attribute-value }
+### Attribute value ### { #sec:attribute-value }
 
 #### Description ####
 
