@@ -225,3 +225,4 @@ providers requiring more complex patterns, more advanced applications,
 or applications built on top of standard software libraries that
 implement this specification as a whole will need to take advantage of
 the ORM mapping patterns.
+

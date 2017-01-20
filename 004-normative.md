@@ -804,3 +804,4 @@ More discussion will be needed to address these issues.
 [^21]: https://developers.google.com/protocol-buffers/
 
 [^22]: https://avro.apache.org/
+

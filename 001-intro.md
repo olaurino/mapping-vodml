@@ -343,3 +343,4 @@ This solution is sufficient and it is in some sense the simplest and
 most explicit approach for annotating a VOTable. It may *not* be the
 most natural or suitable approach for other meta-models such as FITS
 or TAP\_SCHEMA. We discuss this at the end of this document.
+
