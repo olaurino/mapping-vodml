@@ -688,9 +688,9 @@ This pattern can be supported as well.
   the `vodml-ref`s for an instance of a subtype are inherited from the
   supertype.)
 
-The extending type inherits all of the parent type’s Attributes and
-their VO-DML-refs (including the prefixes), and adds its own Attributes
-and their VO-DML-refs (including the prefixes).
+The extending type inherits all of the parent type’s **Attribute**s and
+their *vodml-refs* (including the prefixes), and adds its own **Attribute**s
+and their *vodml-refs* (including the prefixes).
 
 The extending type also inherits all of the parent’s ancestors,
 recursively.
