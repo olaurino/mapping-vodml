@@ -669,7 +669,7 @@ siblings. Or one may choose a mixture of these where there is a table
 for each type, but these only store elements defined on that type;
 sub-types have a foreign key to their parent and to retrieve a complete
 subtype this pointer must be followed, possibly recursively until the
-ultimate super-type. Tools such as Hibernate [7] provide explicit
+ultimate super-type. Tools such as Hibernate [@orm] provide explicit
 support for these inheritance mapping patterns, and we point the reader
 to their documentation for more information.
 
