@@ -440,7 +440,7 @@ through the reference.
 
 #### Example ####
 
-### Reference to object(s) in a TABLE II: objects in different rows, possibly different TABLE { #sec:reference-table-ii }
+### Reference to object(s) in a TABLE II: objects in different rows, possibly different TABLE ### { #sec:reference-table-ii }
 
 #### Description ####
 
