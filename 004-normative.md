@@ -18,8 +18,8 @@ relationships, **Composition** (collection), **Reference** and
 **Inheritance** (extends). **Package** is not mapped: none of the use
 cases required this element to be actually mapped to a VOTable instance.
 
-See whether we should define a list of all the legal mapping patterns in
-an Appendix.
+(**TODO** See whether we should define a list of all the legal mapping patterns in
+an Appendix.)
 
 Some comments on how we refer to VOTable and VO-DML elements (**TODO** TBD
 redundant with text above in section ...)
