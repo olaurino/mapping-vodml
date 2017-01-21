@@ -725,7 +725,7 @@ do not support these files.
 A similar solution could be used to annotate the tables in the schema of
 a TAP service. Here no specific support yet exists, but could be easily
 added to the TAP specification. I fact a VOTable representing all TAP
-tables as “empty” TABLE elements with only header, no DATA information
+tables as “empty” `TABLE` elements with only header, no `DATA` information
 has been proposed in the past as one of the ways by which a TAP schema’s
 metadata could be declared. If this were to be a formalized option it
 would automatically allow the mapping patterns from the current
@@ -733,7 +733,7 @@ specification to be included. The main challenge for TAP is whether that
 annotation can be carried over to the results of queries against its
 schema. For the simple, column-only annotations such as UCDs or
 descriptions, this is already a non-trivial task, and not always
-possible[^20]. General ADQL queries can easily unravel the GROUP-ing of
+possible[^20]. General ADQL queries can easily unravel the `GROUP`-ing of
 columns and their nesting and produce results that cannot be annotated
 with concepts of the original data models. However we believe this is a
 90-10 problem, and for the most common queries it should be possible to
@@ -744,7 +744,7 @@ This should in particular not be a problem for the results of standard
 protocols such as the simple cone search. There the service provider is
 in charge of designing the result set, which, being tabular, can be
 easily annotated using the current specification. In fact, in the
-absence of a TAP\_SCHEMA-like mechanism, it could be argued that the
+absence of a TAP_SCHEMA-like mechanism, it could be argued that the
 current specification presents a perfect mechanism by which an SCS
 service can declare the contents of its holdings.
 
@@ -757,7 +757,7 @@ different problems.
 
 The first approach would be to see if and how such formats can be used
 to provide *faithful* representations as defined in section 3. For XML
-it has been shown in a similar effort (see [3] and [13]) that one
+it has been shown in a similar effort (see [@simdm] and [@vourp]) that one
 can derive an XML schema that represents the types and relations of a
 well-defined data model in a 1-1 fashion. It is even possible to do so
 in an automated manner using code generation and we believe it would be
