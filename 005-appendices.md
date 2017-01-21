@@ -1,4 +1,4 @@
-The VODML annotation elements in the VOTable schema {#sec:schema .AppendixA}
+The VODML annotation elements in the VOTable schema {#sec:schema}
 ===================================================
 
 <!--
@@ -7,7 +7,7 @@ VODML additions to the VOTable schema.
 ```
 -->
 
-Growing complexity: naïve, advanced, and guru clients {#sec:clients .AppendixA}
+Growing complexity: naïve, advanced, and guru clients {#sec:clients}
 =====================================================
 
 This document defines a complete, unambiguous, standard specification
@@ -29,12 +29,11 @@ We say that a client is naïve if:
   * it assumes the a priori knowledge of one or more Data Models
 
   * it discovers information by looking for a set of predefined
-    VO-DML-refs in the VOTable
+    vodml-refs in the VOTable
 
 In other terms, a naïve client has knowledge of the Data Model it is
 sensitive to, and simply discovers information useful to its own use
-cases by traversing the document, seeking the elements it needs by
-looking at their `<VODML>` element.
+cases by traversing the `VODML` element.
 
 Examples of such clients are the DAL service clients that allow users to
 discover and fetch datasets. They will just inspect the response of a
@@ -104,15 +103,15 @@ objects on the fly, so that users can directly interact with those
 objects or use them in their scripts or in science applications, and
 then save the results in a VO-compliant format.
 
-Java guru clients could automatically generate interfaces for
+Java and Python guru clients could automatically generate interfaces for
 representing Data Models and dynamically implement those interfaces at
 runtime, maybe building different views of the same file in different
 contexts.
 
 Notice that Guru frameworks and libraries can be used to build Advanced
 or even Naïve applications in a user-friendly way, abstracting the
-developers from the technical details of the standards and using first
-class scientific objects instead.
+developers from the technical details of the standards and using 
+scientific concepts as first class citizens instead.
 
 References
 ==========
