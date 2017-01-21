@@ -784,6 +784,16 @@ represented as a view on the source.
 
 More discussion will be needed to address these issues.
 
+(**TODO** OL: The most important thing to stress here imo is that defining new
+mappings is equivalent to writing software drivers: documents similar to this
+one will make it possible to implement standardized mappings from vodml to other
+metamodels. We will most likely have some `json` and `yaml` examples. We should
+try and ask somebody to explore `RDF` mappings, which would be particularly
+useful and interesting. In the end VOTable is the current standard for IVOA, but
+by no means one of the standards in the community. Having mechanisms for
+faithfully roundtrip between different formats is an important part of this
+specification.)
+
 [^18]: As discussed earlier, it is allowed that the same object is
     represented multiple times in the same table.
 
