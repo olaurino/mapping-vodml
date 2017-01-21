@@ -712,8 +712,8 @@ this specification. Other formats (notably FITS) cannot support such
 annotations [@fits]. A
 solution to this, which is even one of the motivations behind the
 VOTable specification, is to annotate other format’s tables with a
-VOTable *wrapper*. VOTable (see [2], section 5.2) already supports
-wrapping FITS tables using a TABLE/DATA/FITS. This has a `STREAM/@href`
+VOTable *wrapper*. VOTable (see [@votable], section 5.2) already supports
+wrapping FITS tables using a `TABLE`/`DATA`/`FITS`. This has a `STREAM/@href`
 URL to specify which FITS file is represented and an `@extnum` attribute
 to indicate which FITS extension is used.
 
