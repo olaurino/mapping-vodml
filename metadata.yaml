@@ -61,6 +61,21 @@ references:
           month: 2
           day: 13
       URL: 'http://www.ivoa.net/documents/Notes/UTypesUsage/index.html'
+    - id: fits
+      type: article
+      author:
+        - family: Thomas
+          given: Brian
+        - family: Jenness
+          given: Tim
+        - family: Economou
+          given: Frossie
+      title: "Learning from FITS: Limitations in use in modern astronomical research"
+      issued:
+          year: 2015
+          month: 09
+      journal: "Astronomy and Computing"
+      URL: "http://adsabs.harvard.edu/abs/2015A%26C....12..133T"
     - id: votable
       type: article
       author:

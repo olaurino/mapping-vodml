@@ -709,8 +709,7 @@ Serializing to other file formats {#sec:other}
 
 VOTable is expressive enough to allow the mapping patterns described in
 this specification. Other formats (notably FITS) cannot support such
-annotations. In particular FITS does not support the GROUP-ing of
-columns, which is of prime importance for the current specification. A
+annotations [@fits]. A
 solution to this, which is even one of the motivations behind the
 VOTable specification, is to annotate other format’s tables with a
 VOTable *wrapper*. VOTable (see [2], section 5.2) already supports
