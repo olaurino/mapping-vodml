@@ -117,33 +117,3 @@ class scientific objects instead.
 References
 ==========
 
-1.  <span id="_Ref412877457" class="anchor"></span>VO-DML document
-
-2.  <span id="_Ref417881604" class="anchor"></span>VOTable document(s)
-
-3.  <span id="_Ref417883681" class="anchor"></span>Simulation DM spec
-
-4.  Characterization spec
-
-5.  Spectrum DM spec
-
-6.  STC spec
-
-7.  <span id="_Ref417880637" class="anchor"></span>ORM mapping tools:
-    Hibernate, JPA spec
-
-8.  <span id="_Ref413820347" class="anchor"></span>UCDs
-
-9.  <span id="_Ref413820452" class="anchor"></span>Investigation into
-    existing UTYPE usages, document form UTYPEs tiger team.
-
-10. <span id="_Ref413820652" class="anchor"></span>Note on STC in
-    VOTable (M. Dempleitner)
-
-11. <span id="_Ref414176449" class="anchor"></span>PR on use of SKOS
-    vocabularies in IVOA
-
-12. <span id="_Ref414949253" class="anchor"></span>IVOA Identifiers
-
-13. <span id="_Ref417883709" class="anchor"></span>VO-URP
-
