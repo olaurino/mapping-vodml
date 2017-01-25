@@ -3,5 +3,9 @@
 *.pdf
 *.tex
 
+## vi
+*~
+*.swp
+
 ## Output folder
 output

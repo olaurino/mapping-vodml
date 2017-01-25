@@ -32,12 +32,11 @@ of data files, one needs:
     instances in a specific format.
 
 [^2]: This used to be the assumed role of the `@utype` attribute in
-    VOTable and for example TAP. This document introduces the new
-    `<VODML>` element for this purpose in VOTable, as agreed on in
-    interop meeting in Banff, 2014.
+    VOTable and for example TAP. This document is based on the new
+    `VODML` element in `VOTable` 1.4 [@votable].
 
 Without a consistent language for describing Data Models there can be no
-interoperability, both between them, reuse of models by models, or in
+interoperability among them, through reuse of models by models, or in
 their use in other specifications. Such a language must be expressive
 and formal enough to enable the serialization of data types of growing
 complexity and the development of reusable, extensible software
@@ -61,12 +60,6 @@ particular several different interpretations of `UTYPE`s have been
 proposed and used [@usages]. This specification aims to resolve this
 ambiguity.
 
-Any standard trying to reconcile these very different usages must take
-them into account and make the transition from the current usages to the
-new standard as seamless as possible. For this reason, this document
-also shows how the current `UTYPE`s usages can be seamlessly integrated
-with the new scheme, so to minimize the transition effort.
-
 As a matter of fact, existing files and services can be made compliant
 according to this specification by simply *adding* annotations and
 keeping the old ones. So they do not need to *change* them in such a way
@@ -77,31 +70,25 @@ particular, the appendices provide more information about the impact of
 this specification to the current and future IVOA practices.
 
 This specification describes how to represent Data Model instances using
-the VOTable schema. This representation uses the `<VODML>`; element
+the VOTable schema. This representation uses the `<VODML>` element
 introduced for this purpose in VOTable v1.4 [@votable] and the structure of
 the VOTable meta-model elements to indicate how instances of data models
 are stored in VOTable documents. We show many examples and give a
 complete listing of allowed mapping patterns.
 
-In sections [@sec:usecases] to [@sec:info] we give an introduction to why and how the VODML
-elements can be used to hold pointers into the data models.
+In sections [-@sec:usecases] to [-@sec:info] we give an introduction to why and
+how the VODML elements can be used to hold pointers into the data models.
 
-Section [@sec:normative] is a rigorous listing of all valid annotations, and the
-normative part of the specification. Section [@sec:abssences] describes what
-patterns and usages this specification does *not* cover; moreover, it describes
-how legacy and custom `@utype`s can be treated in this specification’s
-framework: as such, this section actually describes the *transition* from the
-current usages and this specification. Section [@sec:other] describes ideas how this
-specification might be used for annotating other tabular formats, and how to
-generalize it to other, more structured data serialization formats.
+Section [-@sec:normative] is a rigorous listing of all valid annotations, and the
+normative part of the specification. [Section @sec:other] describes ideas how
+this specification might be used for annotating other tabular formats, and how
+to generalize it to other, more structured data serialization formats.
 
-The appendices contain additional material. [@sec:schema] describes the
+The appendices contain additional material. [Section @sec:schema] describes the
 VODML annotation element that was added to the VOTable schema to support
-this mapping specification. [@sec:clients] describes different types of
+this mapping specification. [Section @sec:clients] describes different types of
 client software and how they could deal with VOTables annotated
-according to the current specification. [@sec:regexp] defines a set-based
-“language” for expressing mapping patterns in a more formal manner.
-[@sec:FAQ] tries to answer some frequently asked questions.
+according to the current specification.
 
 **Throughout the document we will refer to some real or example Data
 Models. Please remember that such models have been designed to be fairly
@@ -115,34 +102,52 @@ to real life cases involving actual DMs.**
 Use Cases {#sec:usecases}
 =========
 
-The use cases enabled by this mapping definition are limitless. This
-bold statement can be easily validated by considering that what we
-describe is analogous to the natural mapping between Data Models and XSD
-schemata, where instances are expressed in XML documents. XML is widely
-used in so many ways that it is impossible to list them all. As a matter
-of fact, XML can even express lists of its own use cases.
+This specification provides a standardized mechanism
+for annotating VOTables. In this sense, it enables an indefinite number
+of use cases, each specific to the Data Model instances being represented
+in VOTable format.
 
 However, to give a sense of what it is possible to accomplish with this
 specification, we provide some explicit use cases relative to the VO
 domain.
 
-**Find a value representing a specific concept.** Given a VOTable
-annotated with VODML concepts, a client can extract a piece of
-information by finding a `PARAM` or `FIELDref` annotated with a predefined
-`VODML/ROLE` or `VODML/TYPE`. For example, the client can find the
-luminosity measurement(s) in a file by looking for the `GROUP` element
-containing a VODML/TYPE with value `src:source.LuminosityMeasurement`.
+A typical usage scenario may be a VOTable naïve (see [@sec:clients]) client
+that is sensitive to certain models only, say STC. Such a tool can be
+written to understand annotation with STC types. Finding an element
+mapped to a type definition from STC it might infer for example that it
+represents a coordinate on the sky and use this information according to
+its requirements.
+
+Such a tool would not necessarily understand other models where such an
+STC type is *used* as a role. So, if the annotation refers to both the
+attribute’s role *and* type, even a naïve client can trivially find the
+information it needs. A more advanced client may want to read the Data
+Model Description File that describes the Data Model in a standardized,
+machine readable, fashion.
+
+Other scenarios involve inheritance and polymorphism. Inheritance allows
+models to extend classes defined in other data models. Polymorphism is
+the common object-oriented design concept that says that the value of a
+property may be an instance of a *subtype* of the declared type. This is
+a common scenario, since different missions, instruments, or services may
+represent specializations of standard types. A client must be able to identify
+the information about a standard type, even if the serialization includes
+instances of its subtypes, as it usually happens in object-oriented languages
+and patterns.
+
+Typed languages such as Java support a casting operation, which provides
+more information to the interpreter about the type it may expect a
+certain instance to be.
 
 **Serialize and de-serialize instances according to a data model.**
 Using this specification (or software implementing it), a data provider
 can serialize the metadata for a dataset according to a data model. A
 client can build in memory a faithful representation of that instance
-according to the data provider’s annotations, assuming the knowledge of
-a finite set of `VODMLREF`s. For example, the client can find all the
-information about a Source by looking at a `GROUP` annotated with the
-`UTYPE` `src:source.Source`, and interpret its components (`PARAM`s and
-`FIELDref`s) as the attributes of the object, identified by their `UTYPE`
-strings.
+according to the data provider's annotations, assuming the knowledge of
+a finite set of Data Model identifiers. For example, the client can find all the
+information about a Source by looking at a `INSTANCE` annotated with the
+with type `src:source.Source`, and interpret its components as the attributes of
+the object, identified by their identifier strings.
 
 **Model-unaware serialization and de-serialization.** Model-unaware
 readers and writers can serialize and de-serialize instances according
@@ -161,8 +166,8 @@ The application remains mostly Data Model-agnostic: it wouldn’t need to
 *understand* high-level concepts like Spectrum, or Photometry.
 
 **Validators.** The existence of an explicit Data Model representation
-language and of a precise, unambiguous mapping specification using
-`UTYPE`s enables the creation of universal validators, just as it happens
+language and of a precise, unambiguous mapping specification
+enables the creation of universal validators, just as it happens
 for XML and XSD: the validator can parse the Data Model descriptions
 imported by the VOTable and check that the file represents valid
 instances of the Data Model.
@@ -170,7 +175,7 @@ instances of the Data Model.
 **VO Publishing Helper.** A universal publisher application may help
 data providers in interactively mapping Data Models elements to their
 files or DB tables, either producing a VOTable template with the
-appropriate UTYPEs annotation, or by creating a DAL service on the fly.
+appropriate annotations, or by creating a DAL service on the fly.
 The VO Publisher application is not required to be DM-aware, since it
 can get all the information from the standardized description files.
 
@@ -195,9 +200,12 @@ When encountering a data container, i.e. a file or database containing
 data, one may wish to interpret its contents according to some external,
 predefined data model. That is, one may want to try to identify and
 extract instances of the data model from amongst the information. For
-example in the “global as view” approach to information integration, one
+example in the *global as view* approach to information integration, one
 identifies elements (e.g. tables) defined in a global schema with views
 defined on the distributed databases[^4].
+
+[^4]: See, for example,
+    http://logic.stanford.edu/dataintegration/chapters/chap01.html
 
 If one is told that the data container is structured according to some
 standard serialization format of the data model, one is done. I.e. if
@@ -217,6 +225,9 @@ global data model[^5]. For example, even if databases themselves are
 exact replications of a global data model, results of general queries
 will be such custom serializations.
 
+[^5]: Or alternatively as a transformation of a (standard) serialization
+    of the data model.
+
 To interpret such a custom serialization one generally needs extra
 information that can provide a *mapping* of the serialization to the
 original model. If the serialization *format* is known, this mapping may
@@ -227,12 +238,11 @@ data stored in ‘rows’ in one or more ‘tables’ that each have a unique
 say things like:
 
 -   The rows in this table named SOURCE contain *instances* of *object
-    type* ‘Source’ as defined in *data model* ‘SourceDM’ **(SourceDM is
-    an example model formally defined later in this document)**.
+    type* ‘Source’ as defined in *data model* ‘SourceDM’.
 
 -   The *type*’s ‘name’ *attribute* (having *datatype* ‘string’, a
     *primitive type*) also acts as the *identifier* of the Source
-    *instances* and is stored in the single column with name ID.
+    *instances* and is stored in the single column with ID 'name'.
 
 -   The *type’s* ‘classification’ *attribute* is stored in the table
     column CLASSIFICATION (from the *data model* we know its *datatype*
@@ -259,10 +269,10 @@ say things like:
     instances of the PhotometryFilter *structured data type*, defined in
     the IVOA PhotDM model, whose *package* is imported by the SourceDM.
 
-In this example the *underlined* words refer to concepts defined in
+In this example the *emphasized* words refer to concepts defined in
 VO-DML, a meta-model that is used as a formal language for expressing
 data models. The use of such a modeling language lies in the fact that
-it provides formal, simple and implementation neutral definitions of the
+it provides formal, simple, and implementation neutral definitions of the
 possible structure, the ‘type’ and ‘role’ of the elements from the
 actual data models that one may encounter in the serialization
 (SourceDM). This can be used to constrain or validate the serialization,
@@ -270,12 +280,12 @@ but more importantly it allows us to formulate mapping rules between the
 serialization format (itself a kind of meta-model) and the meta-model,
 independent of the particular data models used; for example rules like:
 
--   An *object type* MUST be stored in a ‘group’.
+-   An *object type* MUST be stored in an ‘INSTANCE’.
 
--   A ‘*primitive type*’ MUST be stored in a ‘column’.
+-   A ‘*primitive type*’ MUST be stored in a ‘COLUMN’.
 
 -   A *reference* MUST identify an *object type* *instance* represented
-    elsewhere, either in another ‘table’, possibly in the same table,
+    elsewhere, possibly in another ‘table’, possibly in the same table,
     possibly in another document.
 
 -   An *attribute* SHOULD be stored in the same table as its containing
@@ -284,7 +294,7 @@ independent of the particular data models used; for example rules like:
 -   etc
 
 Clearly free-form English sentences as the ones in the example are not
-what we’re after. If we want to be able to identify how a data model is
+what we are after. If we want to be able to identify how a data model is
 represented in some custom serialization we need a formal, computer
 readable mapping language.
 
@@ -293,7 +303,7 @@ defined serialization language. After all, for some tool to interpret a
 serialization, it MUST understand its format. A completely freeform
 serialization is not under consideration here. This document assumes
 VOTable, even though a discussion on other formats is provided in
-Section 9.
+[@sec:other].
 
 The mapping language must support the interpretation of elements from
 the serialization language in terms of elements from the data model. If
@@ -303,17 +313,18 @@ necessary to use a general data model *language* as the target for the
 mapping, such as the one described above. This language can give formal
 and more explicit meaning to data modeling concepts, possibly
 independent of specific languages representation languages such as XML
-schema, Java or the relational model.
+schema, Java, or the relational model.
 
 This document uses VO-DML as the target language.
 
 The final ingredient in the mapping language is a mechanism that ties
 the components from the two different meta-models together into
-"sentences". This generally requires some kind of explicit annotation,
+*sentences*. This generally requires some kind of explicit annotation,
 some meta-data elements that provide an identification of source to
 target structure. This document uses an extension to VOTable with a
 VODML element which can provide this link in a rather simple manner.
 
+<!--
 -   It contains two elements, TYPE and ROLE, the value of which must
     correspond to the VODML-ID identifier of an element explicitly
     defined in VO-DML/XML.
@@ -326,19 +337,10 @@ VODML element which can provide this link in a rather simple manner.
 -   There is a set of rules that constrain *which* VOTable elements can
     be identified with *which* type of VO-DML element and how the
     context plays a role here.
+-->
 
-> This solution is sufficient and it is in some sense the simplest and
-> most explicit approach for annotating a VOTable. It may *not* be the
-> most natural or suitable approach for other meta-models such as FITS
-> or TAP\_SCHEMA. For example the current approach relies heavily using
-> on GROUPs to identify most of the structural mapping. FITS and
-> TAP\_SCHEMA do not currently possess such a construct. We will discuss
-> this at the end of this document.
+This solution is sufficient and it is in some sense the simplest and
+most explicit approach for annotating a VOTable. It may *not* be the
+most natural or suitable approach for other meta-models such as FITS
+or TAP\_SCHEMA. We discuss this at the end of this document.
 
-[^1]: Assuming there is a suitable data model!
-
-[^4]: See, for example,
-    http://logic.stanford.edu/dataintegration/chapters/chap01.html
-
-[^5]: Or alternatively as a transformation of a (standard) serialization
-    of the data model.

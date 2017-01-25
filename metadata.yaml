@@ -36,12 +36,7 @@ abstract: |
     With this specification, data providers can
     unambiguously and completely represent Data Model instances in the VOTable
     format, and clients can build *faithful* representations of such instances.
-    The mapping is operated through opaque, portable strings. These used to be
-    called `utypes`, but document uses a new annotation mechanism. This proposal
-    assumes agreement on a VOTable extension that adds an explicit mapping
-    element `<VODML>` to selected VOTable elements (`GROUP`, `PARAM`, `PARAMref`,
-    `FIELDref`) and which indicates that those elements are representing
-    particular elements from some VO-DML model.
+    The mapping is operated through opaque, portable strings.
 
 references:
     - id: vodml
@@ -66,38 +61,76 @@ references:
           month: 2
           day: 13
       URL: 'http://www.ivoa.net/documents/Notes/UTypesUsage/index.html'
-    - id: votable1.4
+    - id: fits
+      type: article
+      author:
+        - family: Thomas
+          given: Brian
+        - family: Jenness
+          given: Tim
+        - family: Economou
+          given: Frossie
+      title: "Learning from FITS: Limitations in use in modern astronomical research"
+      issued:
+          year: 2015
+          month: 09
+      journal: "Astronomy and Computing"
+      URL: "http://adsabs.harvard.edu/abs/2015A%26C....12..133T"
+    - id: votable
       type: article
       author:
         - family: Ochsenbein
           given: Francois
       title: 'VOTable Format Definition'
       issued:
-          year: xxxx
+          year: 1900
           month: xxxx
           day: xxxx
       URL: 'http://www.ivoa.net/documents/xxxx'
-    - id: votable
-      title: 'VOTable document(s)'
     - id: simdm
       title: 'Simulation DM spec'
+      issued:
+          year: 1900
     - id: chardm
       title: 'Characterization DM spec'
+      issued:
+          year: 1900
     - id: spectrumdm
       title: 'Spectrum DM spec'
+      issued:
+          year: 1900
     - id: stcdm
       title: 'STC spec'
+      issued:
+          year: 1900
     - id: orm
       title: 'ORM mapping tools: Hibernate, JPA spec'
+      issued:
+          year: 1900
     - id: ucd
       title: 'UCDs'
+      issued:
+          year: 1900
     - id: stc_in_vot
       title: 'STC in VOTable note'
+      issued:
+          year: 1900
     - id: skos
       title: 'PR on use of SKOS vocabularies in IVOA'
+      issued:
+          year: 1900
     - id: ids
       title: 'IVOA Identifiers'
+      issued:
+          year: 1900
     - id: vourp
       title: 'VOURP'
+      issued:
+          year: 1900
+    - id: ivoid
+      title: 'IVOA Identifiers'
+      issued:
+          year: 1900
 link-citations: true
+linkReferences: true
 ---
