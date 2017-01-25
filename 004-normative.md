@@ -704,106 +704,10 @@ Quantities {#sec:quantity}
 to what we had for value, unit, and ucd in the original document. We might
 decide to have an entirely different mechanism and remove this section.)
 
-Serializing to other file formats {#sec:other}
-=================================
-
-VOTable is expressive enough to allow the mapping patterns described in
-this specification. Other formats (notably FITS) cannot support such
-annotations [@fits]. A
-solution to this, which is even one of the motivations behind the
-VOTable specification, is to annotate other format’s tables with a
-VOTable *wrapper*. VOTable (see [@votable], section 5.2) already supports
-wrapping FITS tables using a `TABLE`/`DATA`/`FITS`. This has a `STREAM/@href`
-URL to specify which FITS file is represented and an `@extnum` attribute
-to indicate which FITS extension is used.
-
-Some FITS formats also allow a VOTable header to be included in an HDU.
-Whilst this would allow data and meta-data to be combined in a single
-file, this solution seems to be less portable, since some FITS readers
-do not support these files.
-
-A similar solution could be used to annotate the tables in the schema of
-a TAP service. Here no specific support yet exists, but could be easily
-added to the TAP specification. I fact a VOTable representing all TAP
-tables as “empty” `TABLE` elements with only header, no `DATA` information
-has been proposed in the past as one of the ways by which a TAP schema’s
-metadata could be declared. If this were to be a formalized option it
-would automatically allow the mapping patterns from the current
-specification to be included. The main challenge for TAP is whether that
-annotation can be carried over to the results of queries against its
-schema. For the simple, column-only annotations such as UCDs or
-descriptions, this is already a non-trivial task, and not always
-possible[^20]. General ADQL queries can easily unravel the `GROUP`-ing of
-columns and their nesting and produce results that cannot be annotated
-with concepts of the original data models. However we believe this is a
-90-10 problem, and for the most common queries it should be possible to
-identify the data model concepts with not much more work than is already
-required to carry along the UCDs.
-
-This should in particular not be a problem for the results of standard
-protocols such as the simple cone search. There the service provider is
-in charge of designing the result set, which, being tabular, can be
-easily annotated using the current specification. In fact, in the
-absence of a TAP_SCHEMA-like mechanism, it could be argued that the
-current specification presents a perfect mechanism by which an SCS
-service can declare the contents of its holdings.
-
-Whereas similar approaches can likely be used for other tabular formats,
-an interesting question is whether mapping patterns can be defined also
-for annotating serialization formats other than tables. In particular
-the more structured formats such as XML or JSON, or more modern ones
-such as Google Protocol Buffers[^21] or Apache Avro[^22], would pose
-different problems.
-
-The first approach would be to see if and how such formats can be used
-to provide *faithful* representations as defined in section 3. For XML
-it has been shown in a similar effort (see [@simdm] and [@vourp]) that one
-can derive an XML schema that represents the types and relations of a
-well-defined data model in a 1-1 fashion. It is even possible to do so
-in an automated manner using code generation and we believe it would be
-a useful effort to define such . As long as a well-defined meta-model
-exists for the target serialization, and as long as it is rich enough we
-believe this will carry over to other serialization formats.
-
-The problem is when one want to annotate existing XML documents that
-have not been designed as such. It has as yet not been explore whether a
-simple annotation mechanism such as the current one will work there as
-well. We believe that *if* the concepts of a data model can be
-identified in an informal manner, it may be possible to at least
-partially reproduce the target serialization as a *view* on a faithful
-serialization. For example one might define an XSLT document that, when
-working on a faithfully serialized data model would produce the desired
-one.
-
-More useful would likely be the opposite, i.e. a document that would
-produce a faithful serialization of a non-faithful one. Such a document
-would allow clients to first transform the document to a known
-serialization for further processing. This brings one close to the
-global-as-view approach, in that the global schema, the data model, is
-represented as a view on the source.
-
-More discussion will be needed to address these issues.
-
-(**TODO** OL: The most important thing to stress here imo is that defining new
-mappings is equivalent to writing software drivers: documents similar to this
-one will make it possible to implement standardized mappings from vodml to other
-metamodels. We will most likely have some `json` and `yaml` examples. We should
-try and ask somebody to explore `RDF` mappings, which would be particularly
-useful and interesting. In the end VOTable is the current standard for IVOA, but
-by no means one of the standards in the community. Having mechanisms for
-faithfully roundtrip between different formats is an important part of this
-specification.)
 
 [^18]: As discussed earlier, it is allowed that the same object is
     represented multiple times in the same table.
 
 [^19]: I.e. if a super-type is declared as the child in a composition
     relation, this “property” is inherited by its sub-types.
-
-[^20]: E.g. consider SELECT a-b FROM foo. Even if columns a and b have a
-    UCD, what is the UCD of their difference?
-
-[^21]: https://developers.google.com/protocol-buffers/
-
-[^22]: https://avro.apache.org/
 
