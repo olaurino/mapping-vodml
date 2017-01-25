@@ -80,9 +80,7 @@ In sections [-@sec:usecases] to [-@sec:info] we give an introduction to why and
 how the VODML elements can be used to hold pointers into the data models.
 
 Section [-@sec:normative] is a rigorous listing of all valid annotations, and the
-normative part of the specification. [Section @sec:other] describes ideas how
-this specification might be used for annotating other tabular formats, and how
-to generalize it to other, more structured data serialization formats.
+normative part of the specification.
 
 The appendices contain additional material. [Section @sec:schema] describes the
 VODML annotation element that was added to the VOTable schema to support
