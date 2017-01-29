@@ -300,8 +300,7 @@ One part of the mapping language should be anchored in a formally
 defined serialization language. After all, for some tool to interpret a
 serialization, it MUST understand its format. A completely freeform
 serialization is not under consideration here. This document assumes
-VOTable, even though a discussion on other formats is provided in
-[@sec:other].
+the target meta-model is VOTable.
 
 The mapping language must support the interpretation of elements from
 the serialization language in terms of elements from the data model. If
