@@ -101,6 +101,15 @@ Model
 
 #### Example ####
 
+~~~~ include
+file: instances/models.votable.xml
+classes: 
+  - xml
+caption: A Caption
+id: lst:code
+----
+~~~~
+
 ObjectType {#sec:objecttype}
 ----------
 
