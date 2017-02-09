@@ -37,8 +37,6 @@ If you also have LaTeX installed you can produce a PDF:
 How to contribute
 =================
 
-Ask me to be included as a collaborator of this repository.
-
 While it is perfectly possible to collaborate using your own fork, especially
 for people new to `git` it's easier to work from the same repo.
 
@@ -46,6 +44,9 @@ If you are comfortable with the GitHub development workflow or distributed VCS
 systems in general and you prefer to
 work from your fork, please feel free to do so and issue your Pull Requests from
 there.
+
+If you prefer to work on this repo directly, please ask and administrator
+(e.g. @olaurino) to be added as a collaborator.
 
 Edit files directly on GitHub
 -----------------------------
@@ -79,16 +80,16 @@ line, please keep reading :-)
 Clone the repository with:
 
 ```
-$ git clone --recursive https://github.com/olaurino/IVOAMappingVODML
-$ cd IVOAMappingVODML
+$ git clone --recursive https://github.com/ivoa/mapping-vodml
+$ cd mapping-vodml
 ```
 
 If you are running a version of `git` that does not support the recursive
 option:
 
 ```
-$ git clone https://github.com/olaurino/IVOAMappingVODML
-$ cd IVOAMappingVODML
+$ git clone https://github.com/ivoa/mapping-vodml
+$ cd mapping/vodml
 $ git submodule init
 $ git submodule update
 ```
@@ -148,7 +149,7 @@ Issue a Pull Request
 
 Pull Requests are the only mechanism for integrating changes in GitHub when
 using the *Fork & Pull* development model. When working on the same repository,
-Pull Requests are not required but are a good practice that allow changes to be
+Pull Requests are not required but are a good practice that allows changes to be
 reviewed and discussed before they get merged.
 
 To issue a Pull Request, in the GitHub page click on *New Pull Request*. In the
@@ -158,7 +159,7 @@ Write a description of your changes. People can comment on individual lines or
 add generic comments. Once the Pull Request has been reviewed, it can be merged.
 
 Depending on how many PRs are open at any time, when a PR is
-merged it is possiable for other PRs to have conflicts, just as local changes
+merged it is possible for other PRs to have conflicts, just as local changes
 might have conflicts with remote changes in trunk development.
 Such conflicts are signaled by GitHub and must be resolved before
 the PR can be merged.
@@ -176,7 +177,7 @@ $ git pull --ff-only
 ```
 
 The `--ff-only` switch is recommended so that git will error if there are local
-changes into the local master branch that are not also in the remote master
+changes in the local master branch that are not also in the remote master
 branch. In a topic branch development model this should never happen because
 master is only updated when integrating PRs.
 
