@@ -321,21 +321,6 @@ some meta-data elements that provide an identification of source to
 target structure. This document uses an extension to VOTable with a
 VODML element which can provide this link in a rather simple manner.
 
-<!--
--   It contains two elements, TYPE and ROLE, the value of which must
-    correspond to the VODML-ID identifier of an element explicitly
-    defined in VO-DML/XML.
-
--   The VOTable element owning the VODML element is said to *represent*
-    the identified VO-DML data model element. It identifies one or more
-    instances of the data model element, the identification depends on
-    the kind of element and on the context in which it appears.
-
--   There is a set of rules that constrain *which* VOTable elements can
-    be identified with *which* type of VO-DML element and how the
-    context plays a role here.
--->
-
 This solution is sufficient and it is in some sense the simplest and
 most explicit approach for annotating a VOTable. It may *not* be the
 most natural or suitable approach for other meta-models such as FITS
