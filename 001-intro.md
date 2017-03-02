@@ -100,18 +100,44 @@ to real life cases involving actual DMs.**
 Use Cases {#sec:usecases}
 =========
 
-This specification provides a standardized mechanism
-for annotating VOTables. In this sense, it enables an indefinite number
-of use cases, each specific to the Data Model instances being represented
-in VOTable format.
+General Remarks
+---------------
 
-However, to give a sense of what it is possible to accomplish with this
-specification, we provide some explicit use cases relative to the VO
-domain.
+This specification provides a standardized mechanism
+for annotating VOTables according to data models. Thus, it enables:
+
+  * Data providers to annotate VOTables so to faithfully map VOTable contents to one or more
+  data models, as long as such Data Models are expressed according to the
+  VO-DML standard [@vodml]. In other terms, they can *serialize* data model
+  *instances* in a standard, interoperable way. Some examples are provided below
+  as concrete use cases.
+  * Service clients to faithfully reconstruct the semantics of the data model instances
+  they consume in VOTable format. Some concrete examples are also provided below.
+
+One of the main goals of this specification is also to alleviate data modelers
+from the burden of defining special serialization strategies for their data models, at least
+in most cases. Specialized serializations might be defined if there are special
+constraints in term of efficiency or effectiveness which require
+specialized serialization schemes.
+
+As a corollary to the above paragraph, client applications can also be implemented
+on top of standardized Input/Output libraries that implement the present specification,
+as the serialization mechanisms are standardized across data models. Without this specification
+clients would need to be coded against specialized serializations for each data model.
+
+As a result, this mapping specification should enable a large number of concrete use cases
+to be implemented, by reducing the annotation burden on both data providers and data consumers,
+improving the overall interoperability, at least for what VOTable is concerned.
+
+This document also represents a template for mapping data model instances to other
+formats (see [@sec:other-formats]).
+
+Concrete Use Cases
+------------------
 
 A typical usage scenario may be a VOTable naïve (see [@sec:clients]) client
 that is sensitive to certain models only, say STC. Such a tool can be
-written to understand annotation with STC types. Finding an element
+written to understand annotations with STC types. Finding an element
 mapped to a type definition from STC it might infer for example that it
 represents a coordinate on the sky and use this information according to
 its requirements.
@@ -190,6 +216,119 @@ astronomical sources and data products the metadata that is specific for
 their instruments or domain. The added metadata can be serialized in a
 standardized fashion so that the user can take advantage of the
 information.
+
+Growing complexity: naïve, advanced, and guru clients {#sec:clients}
+-----------------------------------------------------
+
+We can classify clients
+in terms of how they parse the VOTable in order to harvest its content.
+Of course, in the real word such distinction is somewhat fuzzy, but this
+section tries and describe the different levels of usage of this
+specification.
+
+### Naïve clients ###
+
+We say that a client is naïve if:
+
+  * it does not parse the VO-DML description file
+
+  * it assumes the a priori knowledge of one or more Data Models
+
+  * it discovers information by looking for a set of predefined
+    vodml-refs in the VOTable
+
+In other terms, a naïve client has knowledge of the Data Model it is
+sensitive to, and simply discovers information useful to its own use
+cases by traversing the `VODML` element.
+
+Examples of such clients are the DAL service clients that allow users to
+discover and fetch datasets. They will just inspect the response of a
+service and present the user with a subset of its metadata. They do not
+*reason* on the content, and they are not interested in the structure of
+the serialized objects.
+
+If such clients allow users to download the files that they load into
+memory, they should make sure to preserve the structure of the metadata,
+so to be interoperable with other applications that might ingest the
+same file at a later stage.
+
+### Advanced clients ###
+
+We say that a client is advanced if:
+
+  * it does not parse the VO-DML description file
+
+  * it is interested in the structure of the serialized instances
+
+  * can follow the mapping patterns defined in this specification, for
+    example collections, references, and inheritance
+
+Examples of such clients are science applications that display
+information to the user in a structured way (e.g. by plotting it, or by
+displaying its metadata in a user-friendly format), that *reason* on the
+serialized instances, perform operations on those instances, and
+possibly allow the users to save the manipulated version of the
+serialization.
+
+Notice that the fact that an application does not directly use some
+elements that are out of the scope of its requirements does not mean
+that the application cannot provide them to the user in a useful way.
+For example, an application might allow users to build Boolean filters
+on a table, using a user-friendly tree representing the whole metadata.
+This exposes all the metadata provided by the Data Provider in a way
+that might not be meaningful for the application, but that may be
+meaningful for the user.
+
+Notice, also, that advanced clients *may* be DM-agnostic: for instance,
+an Advanced Data Discovery application may allow the user to filter the
+results of a query by using a structured view of its metadata, even
+though it does not possess any knowledge of Data Models.
+
+### Guru clients ###
+
+We say that a client falls into this category if:
+
+  * it parses the VO-DML descriptions
+
+  * it does not assume any a priori knowledge of any Data Models.
+
+Such applications can, for example, dynamically allow users and Data
+Providers to map their files or databases to the IVOA Data Models in
+order to make them compliant, or display the content of any file
+annotated according to this standard.
+
+This specification allows the creation of universal validators
+equivalent to the XML/XSD ones.
+
+It also allows the creation of VO-enabled frameworks and universal
+libraries. For instance, a Python universal I/O library can parse any
+VOTable according to the Data Models it uses, and dynamically build
+objects on the fly, so that users can directly interact with those
+objects or use them in their scripts or in science applications, and
+then save the results in a VO-compliant format.
+
+Java and Python guru clients could automatically generate interfaces for
+representing Data Models and dynamically implement those interfaces at
+runtime, maybe building different views of the same file in different
+contexts.
+
+Notice that Guru frameworks and libraries can be used to build Advanced
+or even Naïve applications in a user-friendly way, abstracting the
+developers from the technical details of the standards and using
+scientific concepts as first class citizens instead.
+
+Formats other than VOTable { #sec:other-formats }
+--------------------------
+We want to explicitly note that this specification covers the VOTable format only.
+
+Other mapping specifications
+can and will provide standardized strategies for mapping Data Models to formats other
+than VOTable.
+
+Part of the implementation efforts related to the present specification was to validate
+the standard against prototype serializations in JSON and YAML formats.
+
+Mapping specifications targeting additional formats can use this document as a template.
 
 The need for a mapping language
 ===============================
@@ -325,4 +464,3 @@ This solution is sufficient and it is in some sense the simplest and
 most explicit approach for annotating a VOTable. It may *not* be the
 most natural or suitable approach for other meta-models such as FITS
 or TAP\_SCHEMA. We discuss this at the end of this document.
-
