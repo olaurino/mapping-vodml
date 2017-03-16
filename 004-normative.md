@@ -101,12 +101,10 @@ Model
 
 #### Example ####
 
-~~~~ include
-file: instances/models.votable.xml
-classes: 
-  - xml
-caption: A Caption
-id: lst:code
+~~~~ vodsl
+file: instances/models.vodsl
+caption: Example VOTable with simple VODML annotation
+id: lst:models
 ----
 ~~~~
 
