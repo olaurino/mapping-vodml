@@ -341,32 +341,36 @@ the information about a standard type, even if the serialization includes
 instances of its subtypes. Similarly, a client should have enough information to *cast* an instance
 from the declared type to the actual subtype.
 
-Growing complexity: naïve, advanced, and guru clients {#sec:clients}
+Growing complexity: simple, advanced, and guru clients {#sec:clients}
 -----------------------------------------------------
 
-We can classify clients
+According to the use cases depicted above, we can classify clients
 in terms of how they parse the VOTable in order to harvest its content.
 Of course, in the real word such distinction is somewhat fuzzy, but this
 section tries and describe the different levels of usage of this
 specification.
 
-### Naïve clients ###
+This classification is useful because it shows how implementations can be based
+on different assumptions. Some clients can focus on few hard-coded elements,
+while other clients can dynamically address complex tasks.
 
-We say that a client is naïve if:
+### Simple clients ###
+
+We say that a client is *simple* if:
 
   * it does not parse the VO-DML description file
 
-  * it assumes the a priori knowledge of one or more Data Models
+  * it assumes the a priori knowledge of one or more data models
 
   * it discovers information by looking for a set of predefined
     vodml-refs in the VOTable
 
-In other terms, a naïve client has knowledge of the Data Model it is
+In other terms, a simple client has knowledge of the data model it is
 sensitive to, and simply discovers information useful to its own use
 cases by traversing the `VODML` element.
 
 Examples of such clients are the DAL service clients that allow users to
-discover and fetch datasets. They will just inspect the response of a
+discover and fetch datasets. They may just inspect the response of a
 service and present the user with a subset of its metadata. They do not
 *reason* on the content, and they are not interested in the structure of
 the serialized objects.
@@ -378,35 +382,30 @@ same file at a later stage.
 
 ### Advanced clients ###
 
-We say that a client is advanced if:
+We say that a client is *advanced* if:
 
   * it does not parse the VO-DML description file
 
   * it is interested in the structure of the serialized instances
 
-  * can follow the mapping patterns defined in this specification, for
-    example collections, references, and inheritance
+  * can parse the elements defined in this specification
 
-Examples of such clients are science applications that display
-information to the user in a structured way (e.g. by plotting it, or by
-displaying its metadata in a user-friendly format), that *reason* on the
-serialized instances, perform operations on those instances, and
-possibly allow the users to save the manipulated version of the
-serialization.
+Examples of such clients are discovery portals or science applications that display
+information to the user in a structured way, e.g. by plotting it, or by
+displaying its metadata in a user-friendly format. Possibly, such
+applications may allow users to save versions of the
+serialization after it has been manipulated.
 
-Notice that the fact that an application does not directly use some
-elements that are out of the scope of its requirements does not mean
-that the application cannot provide them to the user in a useful way.
-For example, an application might allow users to build Boolean filters
+Such clients may not assume any knowledge of any specific data models.
+In some cases they may assume knowledge of some types from some basic, common
+data models, to perform additional tasks.
+
+Even if such applications may be model-unaware,
+they may allow users to build Boolean filters
 on a table, using a user-friendly tree representing the whole metadata.
 This exposes all the metadata provided by the Data Provider in a way
-that might not be meaningful for the application, but that may be
+that may not be meaningful for the application, but that may be
 meaningful for the user.
-
-Notice, also, that advanced clients *may* be DM-agnostic: for instance,
-an Advanced Data Discovery application may allow the user to filter the
-results of a query by using a structured view of its metadata, even
-though it does not possess any knowledge of Data Models.
 
 ### Guru clients ###
 
@@ -414,30 +413,30 @@ We say that a client falls into this category if:
 
   * it parses the VO-DML descriptions
 
-  * it does not assume any a priori knowledge of any Data Models.
+  * it does not assume any a priori knowledge of any data models.
 
-Such applications can, for example, dynamically allow users and Data
-Providers to map their files or databases to the IVOA Data Models in
+Such applications can, for example, dynamically allow users and data
+providers to map their files or databases to the IVOA data models in
 order to make them compliant, or display the content of any file
 annotated according to this standard.
 
 This specification allows the creation of universal validators
 equivalent to the XML/XSD ones.
 
-It also allows the creation of VO-enabled frameworks and universal
+It also allows the creation of VO-enabled frameworks and reusable
 libraries. For instance, a Python universal I/O library can parse any
-VOTable according to the Data Models it uses, and dynamically build
-objects on the fly, so that users can directly interact with those
+VOTable according to the data models it uses, and dynamically build
+structured objects on the fly, so that users can directly interact with those
 objects or use them in their scripts or in science applications, and
 then save the results in a VO-compliant format.
 
 Java and Python guru clients could automatically generate interfaces for
-representing Data Models and dynamically implement those interfaces at
+representing data models and dynamically implement those interfaces at
 runtime, maybe building different views of the same file in different
 contexts.
 
-Notice that Guru frameworks and libraries can be used to build Advanced
-or even Naïve applications in a user-friendly way, abstracting the
+Notice that guru frameworks and libraries can be used to build advanced
+or even simple applications in a user-friendly way, abstracting the
 developers from the technical details of the standards and using
 scientific concepts as first class citizens instead.
 
