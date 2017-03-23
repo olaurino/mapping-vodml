@@ -9,10 +9,10 @@ type: WD
 date: '2017-03-23'
 dateCode: '20170323'
 author:
-    - name: Omar Laurino
-      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/OmarLaurino
     - name: Gerard Lemson
       url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GerardLemson
+    - name: Omar Laurino
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/OmarLaurino
     - name: Tom Donaldson
       url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TomDonaldson
     - name: Mark Cresitello-Dittmar
