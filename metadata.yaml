@@ -1,29 +1,41 @@
 ---
 title: Mapping Data Models to VOTable
 name: MappingDMtoVOTable
-version: '1.0-201506xx'
+version: '1.0-20170323'
 # supported types: WD, PR, NOTE, REC, DERR
 # custom types may be provided by creating files
 # in `style/messages`, following the examples.
 type: WD
-date: '2016-08-30'
-dateCode: '20160830'
+date: '2017-03-23'
+dateCode: '20170323'
 author:
     - name: Gerard Lemson
       url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GerardLemson
     - name: Omar Laurino
       url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/OmarLaurino
+    - name: Tom Donaldson
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TomDonaldson
+    - name: Mark Cresitello-Dittmar
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkCresitelloDittmar
+    - name: Laurent Michel
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/LaurentMichel
     - name: Patrick Dowler
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PatrickDowler
     - name: Markus Demleitner
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner
     - name: Matthew Graham
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MatthewGraham
     - name: Jesus Salgado
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/JesusSalgado
 editor:
     - name: Omar Laurino
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/OmarLaurino
     - name: Gerard Lemson
+      url: http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GerardLemson
 group: Data Models
-previousVersion:
-    - ver: xx
-      url: http://www.ivoa.net/documents/xx
+#previousVersion:
+#    - ver: xx
+#      url: http://www.ivoa.net/documents/xx
 
 abstract: |
     Data providers and curators provide a great deal of metadata with their data
