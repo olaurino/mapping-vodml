@@ -1,0 +1,33 @@
+def volute = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models"
+def github = "https://raw.githubusercontent.com/olaurino/jovial/new-mapping/src/test/resources/votable"
+
+def ivoaLocation = new URL("$volute/ivoa/IVOA.vo-dml.xml")
+def filterLocation = new URL("$volute/sample/filter/Filter.vo-dml.xml")
+def sampleLocation = new URL("$github/Sample.vo-dml.xml")
+
+dmInstance {
+    model(vodmlURL: ivoaLocation)
+    model(vodmlURL: filterLocation)
+    model(vodmlURL: sampleLocation)
+
+    instance(type: "sample:catalog.SkyCoordinateFrame", id: "_icrs") {
+        instance(role: "name", value: "ICRS")
+    }
+
+    table(id: "_table1") {
+        def sourceNames = ['08120809-0206132', '08115683-0205428', '08115826-0205336']
+        def ra = [123.033734, 122.986794, 122.992773]
+        def dec = [-2.103671, -2.095231, -2.092676]
+
+        instance(type: "sample:catalog.SDSSSource") {
+            column(role: "name", id: "_designation", data: sourceNames)
+            instance(role: "position") {
+                column(role: "longitude", id: "_ra", data: ra)
+                column(role: "latitude", id: "_dec", data: dec)
+                reference(role: "frame") {
+                    idref("_icrs")
+                }
+            }
+        }
+    }
+}
