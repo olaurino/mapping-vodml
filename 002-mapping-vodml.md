@@ -62,11 +62,11 @@ be instances of structured types.
 
 The extension to the VOTable schema is reproduced in [@sec:schema].
 
-VODMLReference
+VODMLReference { #sec:vodmlref }
 --------------
 
 This XML type represents a reference to a single element in a VO-DML/XML
-document. It take over the role of the `@utype` attribute in this regards.
+document. It takea over the role of the `@utype` attribute in this regards.
 Whenever we wish to refer to instances of the VODMLReference type we
 will call them **vodmlref**-s. A vodmlref is a string with the following
 syntax:
@@ -185,10 +185,10 @@ Broadly speaking, this specification is all about Object-Relational
 Mapping (ORM). Data Models are represented in VO-DML according to an
 Entity-Relationship paradigm, in a fashion that is implementable
 by relational databases, object oriented languages, and possibly
-to certain document oriented dabases as well.
+by certain document oriented data bases as well.
 
 As VOTable can represent several tables in the same file with rich
-metadata, one can look at VOTable as a database that can represent
+metadata, one can look at VOTable as a data base that can store instances of
 complex relational models.
 
 Such models are usually defined in terms of entities, with each table
