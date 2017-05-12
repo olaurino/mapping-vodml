@@ -100,96 +100,358 @@ to real life cases involving actual DMs.**
 Use Cases {#sec:usecases}
 =========
 
+General Remarks
+---------------
+
 This specification provides a standardized mechanism
-for annotating VOTables. In this sense, it enables an indefinite number
-of use cases, each specific to the Data Model instances being represented
-in VOTable format.
+for annotating VOTables according to data models. Thus, it enables:
 
-However, to give a sense of what it is possible to accomplish with this
-specification, we provide some explicit use cases relative to the VO
-domain.
+  * Data providers to annotate VOTables so to faithfully map VOTable contents to one or more
+  data models, as long as such Data Models are expressed according to the
+  VO-DML standard [@vodml]. In other terms, they can *serialize* data model
+  *instances* in a standard, interoperable way. Some examples are provided below
+  as concrete use cases.
+  * Service clients to faithfully reconstruct the semantics of the data model instances
+  they consume in VOTable format. Some concrete examples are also provided below.
 
-A typical usage scenario may be a VOTable naïve (see [@sec:clients]) client
-that is sensitive to certain models only, say STC. Such a tool can be
-written to understand annotation with STC types. Finding an element
-mapped to a type definition from STC it might infer for example that it
+One of the main goals of this specification is also to alleviate data modelers
+from the burden of defining special serialization strategies for their data models, at least
+in most cases. Specialized serializations might be defined if there are special
+constraints in term of efficiency or effectiveness which require
+specialized serialization schemes.
+
+As a corollary to the above paragraph, client applications can also be implemented
+on top of standardized Input/Output libraries that implement the present specification,
+as the serialization mechanisms are standardized across data models. Without this specification
+clients would need to be coded against specialized serializations for each data model.
+Similarly, data providers can now serialize instances of any data model to VOTable using
+the same annotation mechanism.
+
+As a result, this mapping specification should enable a large number of concrete use cases
+to be implemented, by reducing the annotation burden on both data providers and data consumers,
+improving the overall interoperability, at least for what VOTable is concerned.
+
+This document also represents a template for mapping data model instances to other
+formats (see [@sec:other-formats]).
+
+Concrete Use Cases
+------------------
+
+### STC clients ###
+A typical usage scenario may be a VOTable client
+that is sensitive to certain models only, say Space Time Coordinates (STC).
+Such a tool may be
+written to understand annotations for instance of STC types, manipulate such instances, and write them back
+to disk.
+
+By finding an element
+mapped to a type definition from the STC model, the application may infer for example that it
 represents a coordinate on the sky and use this information according to
-its requirements.
+its requirements. For example, the client may convert all positions
+expressed in a certain coordinate frame to a different coordinate frame
+through some specific transform.
 
-Such a tool would not necessarily understand other models where such an
-STC type is *used* as a role. So, if the annotation refers to both the
-attribute’s role *and* type, even a naïve client can trivially find the
-information it needs. A more advanced client may want to read the Data
-Model Description File that describes the Data Model in a standardized,
-machine readable, fashion.
+Note that the client may never parse any VO-DML description files,
+as the knowledge about the data model may be assumed when the client code is developed.
 
-Other scenarios involve inheritance and polymorphism. Inheritance allows
-models to extend classes defined in other data models. Polymorphism is
+Also, the STC annotations are the same in all the contexts in which an STC type is used.
+So, for instance, if a VOTable describes catalogues of sources, and each source
+has a position attribute describing its coordinates in a specific reference
+frame, the *instance* describing the source's position would be annotated in the
+exact same way as, say, the central position of a cone search query.
+
+So, the STC tool may not necessarily understand other models where
+STC types are *used*, but it may still be able to find the instances
+of those types.
+
+Note that the same file may contain multiple tables and in any case
+STC model instances defined in multiple coordinate systems or frames.
+
+### VO-enabled plotting and fitting applications ###
+An application whose
+main requirement is to display, plot, and/or fit data cannot be required
+to be aware of *all* astronomical data models. However, if these data models shared
+some common representation of quantities, their errors, and their units,
+the application may discover these pieces of information and structure a
+plot, or perform a fit, with minimal user input: each point may be
+associated with an error bar, upper/lower limits, and other metadata.
+The application remains mostly model-agnostic: it is not required to
+*understand* high-level concepts like Spectrum, or Photometry.
+
+Also, knowledge about the basic building-block types like quantities
+and coordinates, may be hard-coded during development.
+
+### Data discovery portals ###
+Data discovery portals allow users to query VO services, display metadata,
+filter responses, and fetch datasets.
+
+While these applications may not be particularly interested in specific data models,
+standardized annotation mechanisms may allow their developers to dynamically capture
+the structure of the metadata, and provide better exploratory tools rather than flat
+tables.
+
+Consider for example filtering tables according to an arbitrary physical quantity, say
+for instance the spectral coverage of a spectrum, the filter with which an image was taken, or
+the luminosity of a source in a certain band. The portal may provide a friendly interface that allows
+users to select the physical quantities using standardized representations. It may do
+so dynamically for all the pieces of metadata present in the dataset, rather
+than limiting this functionality to a set of hard-coded metadata properties.
+
+Also, the application may group data and metadata in a tree of concepts the user is familiar with,
+rather than flattening the instrinsic structure of the data.
+
+By allowing such applications to faithfully represent data model instances the way they
+were curated and annotated by data providers, and according to the scientific domain
+with which users are familiar, this specification may enable users to easily make sense of
+the file contents, even if the application lacks any knowledge of high-level data models.
+
+Parsing VO-DML description files may be useful to provide the user with even more, and more
+accurate, information.
+
+### Color-color diagrams ###
+The creation of a color-color diagram requires knowledge of the semantics
+of the rows and columns in a table, e.g. a source catalog. Also, some columns
+may be grouped together in a structured way, e.g. a luminosity measurement
+that goes with its error and a reference to the photometry filter it is associated
+with, although such columns might not be adjacent in the file.
+
+Usually, plotting applications are not aware of the semantics of the columns in a table,
+and users may have to select all the relevant columns in order to produce a
+meaningful plot. They may also have to convert between units, and so on.
+
+With a standardized annotation and knowledge of the annotations for basic quantities
+a plotting application may find that there are luminosity measurements in
+a VOTable and allow users to display color-color diagrams, with error bars,
+and possibly with domain-specific actions like unit conversions, seamlessly and requiring minimal input.
+
+There are many examples of very specific use cases that may be implemented by
+science applications that are aware of the semantics of specific models and their annotations.
+
+### Validators ###
+The existence of an explicit data model representation
+language and of a precise, unambiguous mapping specification
+enables the creation of universal validators, just as it happens
+for XML and XSD: the validator may parse the data model descriptions
+imported by the VOTable and check that the file represents valid
+instances of one or more data models.
+
+### VO Publishing Helper ###
+There is some complexity involved in understanding how to publish data in the Virtual
+Observatory. The availability of a standard for serializing data model instances
+can provide tools for publishers to build templates of their responses.
+
+Such application may help
+data providers in interactively mapping Data Models elements to their
+files or DB tables, either producing a VOTable template with the
+appropriate annotations, or by creating a DAL service on the fly.
+
+The application is not required to be model-aware, since it
+may get all the information from the standardized description files and the mapping
+specification.
+
+### VO Importer ###
+Users and Data Providers may have non-compliant files
+that they want to convert to a VO-compliant format according to some
+data models: a generic, model-unaware importer application may allow them to do so
+for any standard data model with a proper description file.
+
+Generic Use Cases
+-----------------
+This section generalizes the previous one by stating the same use cases
+in a more abstract, generic formulation. It also adds some more generic use cases
+that this specification addresses or enables.
+
+### Serialize and de-serialize instances according to a data model ###
+Data providers may want to serialize data and metadata in VOTable
+according to a specific data model with a standardized description.
+
+A client may build an in-memory faithful representation of that instance
+according to the data provider's annotations, assuming the knowledge of
+a finite set of data model identifiers, of a full data model, or by parsing
+standard VO-DML data model specifications.
+
+### Annotate files according to multiple models ###
+Data providers may find it useful to annotate a file according to different
+data models for different classes of data consumers. Also, they may decide to provide
+annotations according to different versions of a specific data model, to favor
+backward compatibility with older clients.
+
+### Representing cross matches and linking files together ###
+It is often the case that two or more files or tables represent different
+pieces of information regarding the same astronomical sources of objects.
+In these cases, one or more columns
+usually are used as keys to identify instances in such tables.
+
+For instance, the output of a cross-matching service may provide the IDs of the
+cross matched sources along with some data regarding the cross-matching process,
+while most of the data about the sources themselves may
+be stored in different tables.
+
+This is a very common relational pattern. A standardized annotation with
+Object-Relational Mapping capabilities may be used to connect different tables
+and provide users with a unified view according to data models
+the user is familiar with.
+
+It is then possible to link different views of the datasets, with an additional
+layer of semantics. For instance, an application may display the image of a region
+of the sky, and a catalogue may contain information about sources in the catalogue.
+
+A user may want to link the image to the catalogue. When no a-priori link between
+the image coordinates and the positions in the catalogue is known, users need to set such
+links themselves, by selecting the relevant columns.
+With standardized annotations according to specific data models
+applications can figure out the links themselves, and ask the user to intervene only
+when there is ambiguity or lack of information, or when the user wants to make a custom link.
+
+Similarly, one may produce a color-color diagram from magnitudes stored in different tables
+as long as there is
+a known mapping from source identifiers among tables, and a standardized annotation of
+all the tables involved.
+
+### Mission-specific data model extensions ###
+One may identify data and metadata features that are common to a certain
+astronomical domain, e.g. catalogues of astronomical sources. These are the models
+the IVOA sanctions in standards.
+
+However, different missions, or archives, or applications will most certainly
+have specific additional features that are not captured by such common, standardized
+data models.
+
+One may express such extensions and their instances in such a way that:
+  * data providers may easily annotate specialized instances, including the additional information, in a
+  standardized, interoperable fashion.
+  * clients of the common, standard data models may still find instances of these parent models in files
+  serializing specialized instanced.
+  * a model annotation that is valid according to a specialized data model
+  is also valid according to the parent model.
+
+This use case can be formalized in terms of inheritance and polymorphism.
+
+Inheritance allows
+models to specialize types defined in other data models. Polymorphism is
 the common object-oriented design concept that says that the value of a
-property may be an instance of a *subtype* of the declared type. This is
-a common scenario, since different missions, instruments, or services may
-represent specializations of standard types. A client must be able to identify
-the information about a standard type, even if the serialization includes
-instances of its subtypes, as it usually happens in object-oriented languages
-and patterns.
+property may be an instance of a *subtype* of the declared type.
 
 Typed languages such as Java support a casting operation, which provides
 more information to the interpreter about the type it may expect a
 certain instance to be.
 
-**Serialize and de-serialize instances according to a data model.**
-Using this specification (or software implementing it), a data provider
-can serialize the metadata for a dataset according to a data model. A
-client can build in memory a faithful representation of that instance
-according to the data provider's annotations, assuming the knowledge of
-a finite set of Data Model identifiers. For example, the client can find all the
-information about a Source by looking at a `INSTANCE` annotated with the
-with type `src:source.Source`, and interpret its components as the attributes of
-the object, identified by their identifier strings.
+A client must be able to identify
+the information about a standard type, even if the serialization includes
+instances of its subtypes. Similarly, a client should have enough information to *cast* an instance
+from the declared type to the actual subtype.
 
-**Model-unaware serialization and de-serialization.** Model-unaware
-readers and writers can serialize and de-serialize instances according
-to specific data models by mapping the contents of a VOTable to model
-description files. This may include file browsing, code generation, data
-integration, etc.
+Growing complexity: simple, advanced, and guru clients {#sec:clients}
+-----------------------------------------------------
 
-**VO-enabled plotting and fitting applications.** An application whose
-main requirement is to display, plot, and/or fit data cannot be required
-to be aware of *all* data models. However, if these data models share
-some common representation of quantities, their errors, and their units,
-the application can discover these pieces of information and structure a
-plot, or perform a fit, with minimal user input: each point will be
-associated with an error bar, upper/lower limits, and other metadata.
-The application remains mostly Data Model-agnostic: it wouldn’t need to
-*understand* high-level concepts like Spectrum, or Photometry.
+According to the use cases depicted above, we can classify clients
+in terms of how they parse the VOTable in order to harvest its content.
+Of course, in the real word such distinction is somewhat fuzzy, but this
+section tries and describe the different levels of usage of this
+specification.
 
-**Validators.** The existence of an explicit Data Model representation
-language and of a precise, unambiguous mapping specification
-enables the creation of universal validators, just as it happens
-for XML and XSD: the validator can parse the Data Model descriptions
-imported by the VOTable and check that the file represents valid
-instances of the Data Model.
+This classification is useful because it shows how implementations can be based
+on different assumptions. Some clients can focus on few hard-coded elements,
+while other clients can dynamically address complex tasks.
 
-**VO Publishing Helper.** A universal publisher application may help
-data providers in interactively mapping Data Models elements to their
-files or DB tables, either producing a VOTable template with the
-appropriate annotations, or by creating a DAL service on the fly.
-The VO Publisher application is not required to be DM-aware, since it
-can get all the information from the standardized description files.
+### Simple clients ###
 
-**VO Importer.** Users and Data Providers may have non-compliant files
-that they want to convert to a VO-compliant format according to some
-data model: a DM-unaware Importer application may allow them to do so
-for any standard Data Model.
+We say that a client is *simple* if:
 
-**Extensibility.** Most often each astronomical facility, instrument, or
-mission needs to express measurements and metadata attributes that are
-unique to the facility, instrument, or mission. A data provider may want
-to *extend* a Data Model, adding to the common information about
-astronomical sources and data products the metadata that is specific for
-their instruments or domain. The added metadata can be serialized in a
-standardized fashion so that the user can take advantage of the
-information.
+  * it does not parse the VO-DML description file
+
+  * it assumes the a priori knowledge of one or more data models
+
+  * it discovers information by looking for a set of predefined
+    vodml-refs in the VOTable
+
+In other terms, a simple client has knowledge of the data model it is
+sensitive to, and simply discovers information useful to its own use
+cases by traversing the `VODML` element.
+
+Examples of such clients are the DAL service clients that allow users to
+discover and fetch datasets. They may just inspect the response of a
+service and present the user with a subset of its metadata. They do not
+*reason* on the content, and they are not interested in the structure of
+the serialized objects.
+
+If such clients allow users to download the files that they load into
+memory, they should make sure to preserve the structure of the metadata,
+so to be interoperable with other applications that might ingest the
+same file at a later stage.
+
+### Advanced clients ###
+
+We say that a client is *advanced* if:
+
+  * it does not parse the VO-DML description file
+
+  * it is interested in the structure of the serialized instances
+
+  * can parse the elements defined in this specification
+
+Examples of such clients are discovery portals or science applications that display
+information to the user in a structured way, e.g. by plotting it, or by
+displaying its metadata in a user-friendly format. Possibly, such
+applications may allow users to save versions of the
+serialization after it has been manipulated.
+
+Such clients may not assume any knowledge of any specific data models.
+In some cases they may assume knowledge of some types from some basic, common
+data models, to perform additional tasks.
+
+Even if such applications may be model-unaware,
+they may allow users to build Boolean filters
+on a table, using a user-friendly tree representing the whole metadata.
+This exposes all the metadata provided by the Data Provider in a way
+that may not be meaningful for the application, but that may be
+meaningful for the user.
+
+### Guru clients ###
+
+We say that a client falls into this category if:
+
+  * it parses the VO-DML descriptions
+
+  * it does not assume any a priori knowledge of any data models.
+
+Such applications can, for example, dynamically allow users and data
+providers to map their files or databases to the IVOA data models in
+order to make them compliant, or display the content of any file
+annotated according to this standard.
+
+This specification allows the creation of universal validators
+equivalent to the XML/XSD ones.
+
+It also allows the creation of VO-enabled frameworks and reusable
+libraries. For instance, a Python universal I/O library can parse any
+VOTable according to the data models it uses, and dynamically build
+structured objects on the fly, so that users can directly interact with those
+objects or use them in their scripts or in science applications, and
+then save the results in a VO-compliant format.
+
+Java and Python guru clients could automatically generate interfaces for
+representing data models and dynamically implement those interfaces at
+runtime, maybe building different views of the same file in different
+contexts.
+
+Notice that guru frameworks and libraries can be used to build advanced
+or even simple applications in a user-friendly way, abstracting the
+developers from the technical details of the standards and using
+scientific concepts as first class citizens instead.
+
+Formats other than VOTable { #sec:other-formats }
+--------------------------
+We want to explicitly note that this specification covers the VOTable format only.
+
+Other mapping specifications
+can and will provide standardized strategies for mapping Data Models to formats other
+than VOTable.
+
+Part of the implementation efforts related to the present specification was to validate
+the standard against prototype serializations in JSON and YAML formats.
+
+Mapping specifications targeting additional formats can use this document as a template.
 
 The need for a mapping language
 ===============================
@@ -321,23 +583,7 @@ some meta-data elements that provide an identification of source to
 target structure. This document uses an extension to VOTable with a
 VODML element which can provide this link in a rather simple manner.
 
-<!--
--   It contains two elements, TYPE and ROLE, the value of which must
-    correspond to the VODML-ID identifier of an element explicitly
-    defined in VO-DML/XML.
-
--   The VOTable element owning the VODML element is said to *represent*
-    the identified VO-DML data model element. It identifies one or more
-    instances of the data model element, the identification depends on
-    the kind of element and on the context in which it appears.
-
--   There is a set of rules that constrain *which* VOTable elements can
-    be identified with *which* type of VO-DML element and how the
-    context plays a role here.
--->
-
 This solution is sufficient and it is in some sense the simplest and
 most explicit approach for annotating a VOTable. It may *not* be the
 most natural or suitable approach for other meta-models such as FITS
 or TAP\_SCHEMA. We discuss this at the end of this document.
-
