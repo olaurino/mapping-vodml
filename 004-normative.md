@@ -169,15 +169,15 @@ its VODML/XML document, but can, if necessary, rely on the `URL` element.
 In [@lst:simple] three models are declared, with the names `ivoa`, `filter`, and `sample`,
 which are the prefixes used in all the `vodml-refs` in the file.
 
-### Instance Annotation: `INSTANCE` ###
+### Instance Annotation: `INSTANCE` ### { #sec:norm-instance }
 
 VO-DML structured types are annotated by using the new `INSTANCE` XML element. Note that there is no difference,
 from a schema point of view, between `**ObjectType**`s and `**DataType**`s. However, some restrictions apply and
 are enforced through schematron rules. More details are provided in [@sec:norm-object;@sec:norm-data].
 
-Instances **must** a *type* (`@dmtype` attribute). Most instances also have a *role* (`@dmtype` attribute), but
-root instances, i.e. instances that are direct children of the `GLOBALS` and `TEMPLATE`s elements
-(see [@sec:norm-globals;@sec:norm-templates]) do not have a role.
+Instances **must** a *type* (`@dmtype` attribute). Note that instances are not annotated with a role, as roles are
+mapped to specific XML elements (see [@sec:norm-relations]). This is compatible with the intuitive fact that the same
+instance can have different roles in relationships with other instances.
 
 Instances **may** be provided with an `@ID` value which allows other objects to refer to the instance itself
 (see [@sec:norm-idref]).
@@ -189,17 +189,6 @@ Instances usually have a number of *roles*, which can be themselves instances th
 As explained in more detail in [@sec:norm-composition] and related sections, a composition relationship is
 annotated so that parents contain or refer to children instances and children point to their parent instances
 through the `CONTAINER` element ([@sec:norm-container]).
-
-#### `PRIMARYKEY` ####
-Instances **may** be identified by an object identifier through the `PRIMARYKEY` element.
-
-An object identifier can have any number of `PKFIELD` fields. Each `PKFIELD` is a choice among a `LITERAL`,
-i.e. a local value,
-a `COLUMN`, i.e. a reference to a cell value, or a `CONSTANT`, i.e. a reference to a `PARAM`.
-See [@sec:norm-relations] for more information about these elements.
-
-Fields are values that make up the object identifier. In most cases only one
-value is used, but it is not uncommon for objects to be identified by a tuple of values.
 
 ### Global Instances: `GLOBALS` ### { #sec:norm-globals }
 
@@ -280,47 +269,277 @@ of either `GLOBALS` or `TEMPLATES`, which in turn **must** contain at least one 
 Relations { #sec:norm-relations }
 ---------
 
+All instances have a type, and some instances also play a *role* in another instance. For example, if a **Source**
+has a **position** of type **Coordinate**, then an instance of type **Coordinate** will also have the role
+of **position** in the enclosing **Source** instance.
+
+The role corresponds to a relationship between two types.
+
+The following roles are mapped from VO-DML to VOTable:
+
+  * Attributes ([@sec:norm-attribute]).
+  * Compositions ([@sec:norm-composition]).
+  * References ([@sec:norm-reference]).
+
 ### Attributes: `ATTRIBUTE` ### { #sec:norm-attribute }
 
-### Attributes: `INSTANCE` ###
+An attribute may be represented by another instance ([@sec:norm-instance]),
+by a primitive or enumerated value ([@sec:norm-literal;@sec:norm-constant]), or by a column ([@sec:norm-column]) if
+the parent instance is a template, i.e. an indirect representation.
 
-### Attributes: `LITERAL` ###
+An `ATTRIBUTE` **must** have a `@dmrole` attribute indicating the role of the attribute, and such `@dmrole` **must**
+be a valid vodml-ref as defined in one of the VO-DML models declared in the models section ([@sec:norm-model]). The
+vodml-ref **must** also identify a VO-DML Attribute.
 
-### Attributes: `CONSTANT` ###
+### Attributes: `LITERAL` ### { #sec:norm-literal }
+
+A `LITERAL` **must** represent an attribute with a primitive or enumerated type. It **must** have a `@value` attribute
+and optionally a `@unit`. It **must** also have a `@dmrole` attribute, whose value **must** be a valid vodml-ref defined
+in one of the declared models ([@sec:norm-model]) and identify a VO-DML role with a primitive type.
+
+### Attributes: `CONSTANT` ### { #sec:norm-constant }
+
+A `CONSTANT` is a reference to a VOTable `PARAM`. This element can be used in place of a `LITERAL` to point to an
+existing `PARAM` in the same VOTable, avoiding duplicated values.
+
+Note that the target of the reference **must** be a `PARAM`.[^why-not-param]
+
+[^why-not-param]: There are a few design considerations behind the choice of not including `PARAM`s, `PARAMref`s and
+`FIELDref`s directly in this specification. One is that the VO-DML mapping schema might be used outside of is VOTable
+context to describe and map data model instances in XML. The other is to keep the VOTable and VO-DML schemata as much
+decoupled as possible, in order to facilitate future revisions. Also, `PARAM` is too rich of an element with its own
+attributes and semantics. Such semantics are rather different than the ones in `VO-DML`, in particular regarding the
+different kinds of types (`@utype`, `@xtype`, `@datatype`) and annotations (`@arraysize`, `@ucd`) that a `PARAM` is
+composed of, which do not have an equivalent in VO-DML.
 
 ### Template Attributes: `COLUMN` ### { #sec:norm-column }
 
-### Containers: `CONTAINER` ### { #sec:norm-container }
-
-### Containers: `PRIMARYKEY` ###
-
-### Containers: `FOREIGNKEY` ###
+A `COLUMN` is a reference to a VOTable `FIELD`. Instances representing attributes as `COLUMN`s **must** be defined
+inside a `TEMPLATES` element. A `COLUMN` **must** have a `@dmtype` attribute whose value **must** be a valid vodml-ref
+defined by one of the declared models ([@sec:norm-model]). Such vodml-ref **must** identify the VO-DML type
+corresponding to the enclosing attribute's role.
 
 ### References: `REFERENCE` ### { #sec:norm-reference }
 
+A reference is a relationship between a referring instance and a referred instance. While the referring instance can
+be both an **`ObjectType`** and a **`DataType`** the referred instance **must** be of an **`ObjectType`**.
+
+The reference can be to an identified direct instance in the same file ([@sec:norm-idref]), to a remote instance
+identified by a URI ([@sec:norm-remote-reference]), or to an instance indirectly represented by a template, through
+a foreign key pointing at the referred instance's primary key ([@sec:norm-reference-foreignkey]).
+
 ### References: `IDREF` ### { #sec:norm-idref }
 
-### References: `REMOTEREFERENCE` ###
+In order to use `IDREF` the referred instance **must** be an instance of an **`ObjectType`**, it **must** be serialized
+as a direct instance, and it **must** be located in the same document as the referrer instance. Also, there **must**
+be a correspondent relationship defined in the VO-DML description of the model in which the referrer type is defined.
+
+### References: `REMOTEREFERENCE` ### { #sec:norm-remote-reference }
+
+In order to use `REMOTEREFERENCE` the referred instance **must** be an instance of an **`ObjectType`**,
+it **must** be serialized as a direct instance, and it **must** be located in a different document than the referrer
+instance. Also, there **must** be a correspondent relationship defined in the VO-DML description of the model in which
+the referrer type is defined.
+
+`REMOTEREFERENCE` is of type `xs:anyURI` an **must** identify a globally unique instance through a specific URI (e.g. an
+IVOA Resource Name), **or** a URL to the serialization of the instance, but the URL **must** be persistent.
 
 ### References: `FOREIGNKEY` ### { #sec:norm-reference-foreignkey }
 
-### Compositions: `COMPOSITION` ### { #sec:norm-composition }
+The referred instance may be serialized as a row in a table different than the one serializing the referrer (if any).
+In this case the reference is annotated through a `FOREIGNKEY` ([@sec:norm-foreign]).
 
-### Compositions: `INSTANCE` ###
+### Composition: `COMPOSITION` ### { #sec:norm-composition }
 
-### Compositions: `EXTINTANCES` ###
+A composition is a whole-part relationship between **`ObjectTypes`**, where
+one instance is said to be the container, or parent, or whole, and the other is said to be the contained, or child, or
+part. In a VOTable composed instances may be serialized directly within the parent instance
+([@sec:norm-instance]) if the parent is directly representated or if the part is serialized in the same table
+as the parent, or externally ([@sec:norm-extinstances]) if the part is indirectly represented and serialized in a
+different table. Children refer back to their parent through an implicit container relationship
+([@sec:norm-container]). The reference is achieved through a foreign key ([@sec:norm-foreign]) referencing the
+container's primary key ([@sec:norm-primary]).
+
+In order to be valid, the composition **must** link two **`ObjectType`**s and there must be a correspondent relationship
+defined in the VO-DML description of the model. The number of contained instances must be compatible with the
+relationship's multiplicity.
+
+The `COMPOSITION` element **must** have a `@dmrole` attribute, whose value **must** be a valid vodml-ref identifying a
+composition relationship in one of the models declared ([@sec:norm-model]), and types of the parent and children
+**must** be compatible with the relationship defined in that model.
+
+### Composition: `EXTINTANCES` ### { #sec:norm-extinstances }
+
+A composition relationship can delegate the definition of some of the children to an external `INSTANCE` declaration
+elsewhere in the file, for example if the instances are defined in a different table.
+
+The `EXTINSTANCES` element is useful for clients in that it links instances from the parent to the children. In
+relational data bases, the composition relatioship is usually implementing by referencing objects from the parts to
+the whole, not the other way around (see @[sec:norm-container]). This specification provides a way for containers to
+declare where the contained objects are located and described.
+
+(**TODO** this leaves the door open to the possibility that children refer to their parents but not the other way
+around. Should clients be prepared to this possibility? If so, then the `EXTINSTANCES` element is redundant. Otherwise
+what seems to be redundant is the `CONTAINER` element).
+
+### Composition: `CONTAINER` ### { #sec:norm-container }
+
+On the part side of a composition relationship, especially in complex Object Relational Mapping applications, parts
+include a reference to their containers. This is consistent with the relational implementation of the composition
+relationship. For more details see [@sec:norm-foreign].
+
+### `PRIMARYKEY` ### { #sec:norm-primary }
+Instances **may** be identified by an object identifier through the `PRIMARYKEY` element.
+
+An object identifier can have any number of `PKFIELD` fields. Each `PKFIELD` is a choice among a `LITERAL`,
+i.e. a local value ([@sec:norm-literal]),
+a `COLUMN`, i.e. a reference to a cell value ([@sec:norm-column]), or a `CONSTANT`, i.e. a reference to a `PARAM`
+([@sec:norm-constant]).
+
+Fields are values that make up the object identifier. Generally only one
+value is used, but it is not uncommon for objects to be identified by a tuple of values.
+
+Primary keys **must** be unique within object types. In other terms there can be no two instances with the same primary
+key in a single file. If two instances appear to have the same primary key then client's behavior is undefined.
+
+### `FOREIGNKEY` ### { #sec:norm-foreign }
+
+In Object Relational Mapping a foreign key is the mechanism by which instances in a table identify other instances in
+many-to-one and many-to-many relationships with itself.
+
+In a simple model where a source can be observed in an arbitrary number of photometric filters, one would usually have
+a table for sources, with IDs and general metadata, a table for photometric filters, and a table for luminosity
+measurements of a source. In this implementation, the Luminosity entity is in a many-to-one relationship with both
+the Source and the Filter tables. This relationship is implemented by providing the Luminosity table with two foreign
+key columns to the Source and Luminosity tables. The value of the foreign keys is the ID of the Source and Filter
+instances to which each luminosity measurements refer to.
+
+A query might query the data base for "all the luminosity measurements of Source 3c273", implying the ownership
+relationship of a Source with its Luminosities, although there is no actual reference from the Source table to the
+Luminosity table.
+
+Providing the parent table with a column for each reference to an arbitrary number of potential children is clearly
+unsustainable, if at all possible.
+
+A `FOREIGNKEY` can provide a `TARGETID` to point to an identified element in the same file.
+(**TODO** Be more specific here on how to use `TARGETID`)
+
+A `FOREIGNKEY` **must** contain at least one `PKFIELD`, and the structure of the key fields must be compatible with
+the one of the primary keys of the referenced instance.
+
 
 Representing Types { #sec:norm-types }
 ------------------
 
-### **`PrimitiveType`** ###
+### **`PrimitiveType`** ### { #sec:norm-map-primitive }
 
-### **`Enumeration`** and **`EnumerationLiteral`** ###
+Primitive Types are types without structure, and so instances are represented by a simple value. They can be mapped to:
+
+  * a `LITERAL` element if the value is provided in the file's header ([@sec:norm-literal]);
+  * a `CONSTANT`, i.e. a reference to a `PARAM`, if the value is mapped to the value of 
+  an existing `PARAM` ([@sec:norm-constant]);
+  * a `COLUMN`, i.e. a reference to a `FIELD`, if the value is in a table cell. In this case we say that the enclosing
+  instance is indirectly represented by an `INSTANCE` template, with actual instances serialized in tabular format
+  ([@sec:norm-column]).
+
+### **`Enumeration`** and **`EnumerationLiteral`** ### { #sec:norm-map-enumeration }
+
+Enumerations are primitive types with a limited number of possible, enumerated values. Enumerations are mapped to the
+same elements as primitive types ([@sec:norm-map-primitive]), with the limitation that values **must** be valid
+enumeration literals compatible with the type declared by the enclosing `ATTRIBUTE` element.
 
 ### **`ObjectType`** ### { #sec:norm-object }
 
+Object types are mapped to the `INSTANCE` element ([@sec:norm-instance]). Object types can have **`DataType`**d
+attributes, which are mapped to the `ATTRIBUTE` element ([@sec:norm-attribute]). The `ATTRIBUTE` **must** have a
+`@dmrole` corresponding to the model-defined role identifier. In turn, the `ATTRIBUTE` **must** contain an `INSTANCE`
+with a type compatible with the attribute's role. Note that the type can be the type declared directly in the model
+or any specialization of that type defined in any model declared via the `MODEL` element.
+ 
+Object types can also have attributes with a `PrimitiveType` type or with an `Enumeration` type. In this case
+attributes are mapped following the patterns described in [@sec:norm-map-primitive] and [@sec:norm-map-enumeration] 
+respectively.
+
+Object types can hold references to instances of other object types. This roles are mapped to the `REFERENCE` element
+([@sec:norm-reference]). In this case the `REFERENCE` **must** have a `@dmrole` corresponding to the model-defined
+reference relationship.
+
+Finally, object types can be in composition relationships with other object types. An object type can be both the
+*parent*, or *whole*, and *contain* its *children*, or *parts* ([@sec:norm-composition]).
+
+A parent `INSTANCE` will have a `COMPOSITION` element with the `@dmrole` of the composition relationship defined in the
+model.
+
+In addition to `INSTANCE`s, parents can also point to instances described elsewhere in the document through the
+`EXTINSTANCE` elements.
+  
+For each composition relationship an arbitrary number of instances may be present, with two limitations:
+
+  * the number of instances must be compatible with the multiplicity of the relationship;
+  * the instances must have `@dmtype`s compatible with the data type of the relationship defined in the model, i.e.
+  the exact type declared there or any of its subtypes.
+
+A children `INSTANCE` will have a `CONTAINER` element pointing at the 
+
+As described in [@sec:norm-globals] and [@sec:norm-templates] an **`ObjectType`** can be represented both directly or
+indirectly through standalone instances or instance templates respectively.
+
 ### **`DataType`** ### { #sec:norm-data }
 
-### Type Extensions ###
+Data types are mostly mapped like object types. This removes a lot of burden from data providers and clients that do not
+need to validate datasets, simplifying the syntax.
+
+Some constaints apply to **`DataType`**s. They are not enforced through XSD but datasets **must** meet such constraints
+in order to validate.
+
+VO-DML **`DataType`**s **cannot** be in composition relationship with any other types, so `COMPOSITION` and `CONTAINER`
+**cannot** be used inside an `INSTANCE` representing a **`DataType`**. Similarly, **`DataType`**s cannot have a
+`PRIMARYKEY`.
+
+Also, there **cannot** be references pointing to a **`DataType`** instance.
+
+### Type Generalization and Inheritance ###
+
+(**TODO This needs to be expanded and completed with examples)
+
+VO-DML allows types to *extend* or *specialize* other types. As it happens in object oriented languages, an instance of
+a specialization, or *subtype* of a more general type, or *supertype*, is also a valid instance of the supertype, and
+can be used wherever an instance of a supertype is expected.
+
+This means that clients of the supertype must be able to recognize instances of the supertype even though a specialized
+subtype might have been instantiated. This case includes all kinds of clients discussed in [@sec:clients]. What we
+called *guru* clients can read the VO-DML description files and can figure out the generalization relationships.
+*Advanced* clients might or might not care about generalizations, but generalization must be mapped with particular care
+so that *simple* clients can find the information they are seeking, even when a type they are interested in is present
+as an instance of one of its subtypes.
+
+Since we currently provide only one `@dmtype` per `INSTANCE`, only one type can be expressed for each instance. This
+type **must** always be the actual type of the instance. This means that clients **cannot** rely on the instance's
+type in order to recognize instances, unless they rely on VO-DML-aware specialized software libraries.
+
+In VO-DML specialized types inherit all of the supertype's vodml-id descriptors, including the prefix. This means that
+`@dmrole`s can always be matched, whether or not an instance represents a supertype or one of its subtypes.
 
 ### Quantities ###
+
+(**TODO** This is a placeholder for specific mapping of ivoa quantities, but we need the ivoa model to settle)
+
+#### Comparison of `EXTINSTANCE` and `INSTANCE`
+
+The distinction between `INSTANCE` and `EXTINSTANCE` as children of the `COMPOSITION` element allows for common object
+relational mappings to be used. In a completely normalized implementation each type may be serialized in its own table.
+However, in practice astronomical archives and datasets show some form of flattening, i.e. some types are serialized
+as part of the table that represent the parent type, or multiple instances of the part type are serialized in the same
+table. This is the case, for instance, of sources and their luminosities.
+
+In a mission's archive, and in the data sets they serve, usually a single table represents a number of photometric
+measurements in different filters. This corresponds to a VO-DML annotation with an indirect `INSTANCE` for the Source
+type with a `COMPOSITION` element containing a number of indirect `INSTANCE`s for the luminosity measurements.
+Such instances correpond to the finite set of filters (and errors, and other kinds of metadata) specific to a particular
+mission. All the `INSTANCE`s, in this example, would point to columns in the same table.
+
+However, consider now the case of a data set that contains a number of sources, each with an arbitrary number of
+photometric measurements coming from different missions and archives. In this case a single flattened table is not an
+efficient or effective way of serializing such instances, and multiple tables can be used for sources and luminosities.
+The `EXTINSTANCES` mechanism provides a mechanism for representing this pattern.
+(**TODO** However, the safest and most efficient way is to just have children refer to their containers.)

@@ -1,9 +1,12 @@
-The VODML annotation elements in the VOTable schema {#sec:schema}
-===================================================
+VO-DML XML schema [NORMATIVE] {#sec:schema}
+=============================
 
 In order to keep the VOTable standard as stable as possible and to better separate the
 concerns of the different documents, the elements used for mapping data model instances are
 defined in a standalone schema, that is then imported by the VOTable 1.4 schema itself.
+
+Additions to VOTable
+--------------------
 
 The new VOTable 1.4 VOTable schema [@votable] simply imports the mapping schema through
 `xs:import`:
