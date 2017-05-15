@@ -524,9 +524,9 @@ In VO-DML specialized types inherit all of the supertype's vodml-id descriptors,
 
 (**TODO** This is a placeholder for specific mapping of ivoa quantities, but we need the ivoa model to settle)
 
-#### Comparison of `EXTINSTANCE` and `INSTANCE`
+### Comparison of `EXTINSTANCES` and `INSTANCE` ###
 
-The distinction between `INSTANCE` and `EXTINSTANCE` as children of the `COMPOSITION` element allows for common object
+The distinction between `INSTANCE` and `EXTINSTANCES` as children of the `COMPOSITION` element allows for common object
 relational mappings to be used. In a completely normalized implementation each type may be serialized in its own table.
 However, in practice astronomical archives and datasets show some form of flattening, i.e. some types are serialized
 as part of the table that represent the parent type, or multiple instances of the part type are serialized in the same
