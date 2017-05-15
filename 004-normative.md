@@ -543,3 +543,18 @@ photometric measurements coming from different missions and archives. In this ca
 efficient or effective way of serializing such instances, and multiple tables can be used for sources and luminosities.
 The `EXTINSTANCES` mechanism provides a mechanism for representing this pattern.
 (**TODO** However, the safest and most efficient way is to just have children refer to their containers.)
+
+Full Example
+------------
+
+~~~~ vodsl
+file: instances/complex.vodsl
+caption: |
+    Example covering all of the XML elements and mapping patterns, including multi-table Object Relational Mapping.
+id: lst:complex
+classes:
+  - xml
+  - numberLines
+----
+~~~~
+
