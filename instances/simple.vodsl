@@ -1,8 +1,8 @@
 def volute = "http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models"
 def github = "https://raw.githubusercontent.com/olaurino/jovial/new-mapping/src/test/resources/votable"
 
-def ivoaLocation = new URL("$volute/ivoa/IVOA.vo-dml.xml")
-def filterLocation = new URL("$volute/sample/filter/Filter.vo-dml.xml")
+def ivoaLocation = new URL("$volute/ivoa/vo-dml/IVOA-v1.0.vo-dml.xml")
+def filterLocation = new URL("http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/sample/filter/Filter.vo-dml.xml")
 def sampleLocation = new URL("$github/Sample.vo-dml.xml")
 
 dmInstance {
